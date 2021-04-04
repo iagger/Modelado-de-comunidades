@@ -1,48 +1,4 @@
-from fcache.cache import FileCache
-
-class CachedSimilarity():
-
-    def __init__(self, appname, cache_dir='../data'):
-        self._cacheFile_ = FileCache('communities.artworkSimilarity.' + appname, flag='cs', app_cache_dir=cache_dir)
-
-    def computeSimilarity(self, A, B):
-        raise NotImplementedError("Each subclass must implement this method")
-
-    def __findSimilarity(self, A, B):
-        if A in self._cacheFile_ and B in self._cacheFile_[A].keys():
-            return self._cacheFile_[A][B], (A, B)
-        if B in self._cacheFile_ and A in self._cacheFile_[B].keys():
-            return self._cacheFile_[B][A], (B, A)
-        return None, None    
-
-    def __lenDict(self, Entity):
-        if Entity not in self._cacheFile_:
-            self._cacheFile_[Entity] = dict()
-        return len(self._cacheFile_[Entity])
-    
-    def __storeSim(self, A, B, sim):
-        len_a = self.__lenDict(A)
-        len_b = self.__lenDict(B)
-        if len_a < len_b:
-            self._cacheFile_[A] |= {B : sim}
-        else:
-            self._cacheFile_[B] |= {A : sim}
-
-    def getSimilarity(self, A, B, recompute=False):
-        sim, coord = self.__findSimilarity(A, B)
-        if sim is None or recompute:
-            sim = self.computeSimilarity(A, B)
-            if coord is None:
-                self.__storeSim(A, B, sim)
-            else:
-                self._cacheFile_[coord[0]] |= { coord[1] : sim }
-        return sim
-
-    def close(self):
-        self._cacheFile_.sync()
-        self._cacheFile_.close()
-
-
+from cachedSimilarity import CachedSimilarity
 
 ################################################################################
 ############################## Depicts Similarity ##############################
@@ -89,7 +45,7 @@ def findLeastCommonSubsumer(depict_a, depict_b, ret, max_depth=1):
 class DepictsSimilarity(CachedSimilarity):
 
     def __init__(self, depth=1, cache_dir='../data/cache'):
-        super().__init__('depicts.depth' + str(depth), cache_dir)
+        super().__init__('artworkSimilarity.depicts.depth' + str(depth), cache_dir)
         self.__superclassRetreiver__ = PropertyRetreiver(['P279', 'P31'])
         self.__depictsRetreiver__ = PropertyRetreiver(['P180'])
         self.__maxdepth__ = depth
@@ -136,7 +92,7 @@ from my_sparql import PropertyRetreiver
 class SizeSimilarity(CachedSimilarity):
 
     def __init__(self, cache_dir='../data/cache'):
-        super().__init__('picture.size', cache_dir)
+        super().__init__('artworkSimilarity.picture.size', cache_dir)
         self.__heightRetriever__ = PropertyRetreiver(['P2048'])
         self.__widthRetriever__ = PropertyRetreiver(['P2049'])
 
@@ -176,7 +132,7 @@ import math
 class DominantColorSimilarity(CachedSimilarity):
 
     def __init__(self, artworks_CSV='../data/originales/Prado_artworks_wikidata.csv', cache_dir='../data/cache'):
-        super().__init__('picture.dominantColor', cache_dir)
+        super().__init__('artworkSimilarity.picture.dominantColor', cache_dir)
         self.__pics__ = pd.read_csv(artworks_CSV)[['wd:paintingID', 'Image URL']] 
 
     def __colorPercentage(self, cluster):
@@ -224,7 +180,7 @@ import pandas as pd
 class ArtistSimilarity(CachedSimilarity):
 
     def __init__(self, artworks_CSV='../data/originales/Prado_artworks_wikidata.csv', cache_dir='../data/cache'):
-        super().__init__('artist', cache_dir)
+        super().__init__('artworkSimilarity.artist', cache_dir)
         self.__artist__ = pd.read_csv(artworks_CSV)[['wd:paintingID', 'Artist', 'Category']] 
 
     def __getArtist(self, entity):
@@ -258,7 +214,7 @@ from skimage import io
 class ImageMSESimilarity(CachedSimilarity):
 
     def __init__(self, artworks_CSV='../data/originales/Prado_artworks_wikidata.csv', cache_dir='../data/cache'):
-        super().__init__('picture.mse_sim', cache_dir)
+        super().__init__('artworkSimilarity.picture.mse_sim', cache_dir)
         self.__pics__ = pd.read_csv(artworks_CSV)[['wd:paintingID', 'Image URL']] 
 
     def __mse_ssim(self, url1, url2):
@@ -285,3 +241,39 @@ class ImageMSESimilarity(CachedSimilarity):
         url2 = self.__pics__.loc[self.__pics__['wd:paintingID'] == B]['Image URL'].to_list()[0]
         return self.__mse_ssim(url1, url2)
 
+
+##########################################################################################
+################################## Artwork Similarity ####################################
+##########################################################################################
+
+import heapq
+import numpy as np
+import pandas as pd
+
+Partial_Similarities = [DepictsSimilarity(4),
+                        SizeSimilarity(),
+                        DominantColorSimilarity(),
+                        ArtistSimilarity(),
+                        ImageMSESimilarity()]
+
+PradoArtworks = pd.read_csv("../data/originales/Prado_artworks_wikidata.csv")
+
+def checkWeights(weights):
+    if not len(weights) or sum(weights) > 1.:
+        return np.ones(len(Partial_Similarities)) * (1 / len(Partial_Similarities))
+    else:
+        return np.array(weights)
+
+def ArtworkSimilarity(A, B, weights=[]):
+    weights = checkWeights(weights)
+    partials = []
+    for partial in Partial_Similarities:
+        partials.append(partial.getSimilarity(A, B))
+    return (np.array(partials) * weights).sum()
+
+def MostSimilarArtworks(artwork, k=5, weights=[]):
+    q = []
+    for _, row in PradoArtworks.iterrows():
+        if row['wd:paintingID'] != artwork:
+            heapq.heappush(q, (ArtworkSimilarity(artwork, row['wd:paintingID'], weights), row['wd:paintingID']))
+    return heapq.nlargest(k, q)
