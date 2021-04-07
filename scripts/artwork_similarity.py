@@ -18,14 +18,28 @@ def minPath(a, b):
         return a
     return b
 
-def findLeastCommonSubsumer(depict_a, depict_b, ret, max_depth=1):
-    # Almacenamos las profundidades 
-    depths_a = { depict_a : 0 }
-    depths_b = { depict_b : 0 }
+def findLeastCommonSubsumer(entity_a, entity_b, ret, max_depth=1):  
+    '''
+    Busca el antepasado común más cercano de dos entidades en la profundidad máxima indicada
 
-    for i in range(0, max_depth + 1):   # Para max_depth profundizaciones
-        intersection = set([*depths_a]) & set([*depths_b])  # Si a y b comparten una o más superclases
-        if len(intersection): # Devolvemos la que minimice el camino de a-b
+    PARÁMETROS
+        entity_a, entity_b  entidades para las que se busca antepasado común
+        ret                 recuperador de superclases del tipo my_sparql.PropertyRetriever
+        max_depth           profundidad máxima de la búsqueda
+    DEVUELVE
+        entities    tupla con las entidades objeto de la búsqueda
+        lcs         antepasado común más cercano. None si no se encuentra ninguo
+        path        tupla que indica la distancia de cada entidad inicial al antepasado común. (-1, -1) si no se encuentra ninguo
+    '''
+    # Estructuras auxiliares para almacenar los antepasados encontrados y en que profundidad se hizo 
+    depths_a = { entity_a : 0 }
+    depths_b = { entity_b : 0 }
+
+    for i in range(0, max_depth + 1):   
+        # Si existe una intersección entre los conjuntos de antepasados encontrados
+        intersection = set([*depths_a]) & set([*depths_b])  
+        if len(intersection):
+            # Devolvemos el antepasado con camino más corto de todos los comunes encontrados
             path = (math.inf, math.inf)
             lcs = None
             for common in list(intersection):
@@ -33,14 +47,15 @@ def findLeastCommonSubsumer(depict_a, depict_b, ret, max_depth=1):
                 if new_path != path:
                     lcs = common
                 path = new_path
-            return (depict_a, depict_b), lcs, path
+            return (entity_a, entity_b), lcs, path
+        # Si no añadimos a las estructuras los antepasados de los elementos recuperados en la profundidad anterior
         else:
             for sa in [x for x in [*depths_a] if depths_a.get(x) == i]:
                 depths_a |= dict([(k, min(i+1, depths_a.get(k, math.inf))) for k in ret.retrieveFor(sa)])
             for sb in [y for y in [*depths_b] if depths_b.get(y) == i]:
                 depths_b |= dict([(k, min(i+1, depths_b.get(k, math.inf))) for k in ret.retrieveFor(sb)])
     
-    return (depict_a, depict_b), None, (-1, -1)
+    return (entity_a, entity_b), None, (-1, -1)
 
 class DepictsSimilarity(CachedSimilarity):
 
@@ -57,24 +72,30 @@ class DepictsSimilarity(CachedSimilarity):
         intersection = A.intersection(B)
         exclusive_A = A.difference(B)
         exclusive_B = B.difference(A)
+
+        # Creamos un diccionario de pesos para cada conjunto de depicts, poniendo peso 1. los presentes y 0. a los ausentes
         a = OrderedDict({k : 1. for k in exclusive_A} | {k : 0. for k in exclusive_B} | {k : 1. for k in intersection})
         b = OrderedDict({k : 0. for k in exclusive_A} | {k : 1. for k in exclusive_B} | {k : 1. for k in intersection})
         trash = set()
         commons = {}
         
+        # Buscamos supercalses comunes para todos los depicts de A y B
         for depicts, lcs, path in Parallel(n_jobs=multiprocessing.cpu_count())(delayed(findLeastCommonSubsumer)(da, db, self.__superclassRetreiver__, self.__maxdepth__) for da in A for db in B):  
             if sum(path) > 0:
                 trash.union({depicts[0], depicts[1]})
                 commons[lcs] = path
 
+        # Eliminamos de ambos diccionarios todos los depicts para los que hemos encontrado una superclase común   
         for t in trash:
             a.popitem(t)
             b.popitem(t)
 
+        # Introducimos en ambos diccionarios los antepasados encontrados con peso inverso a la distancia que tenian con el depict original
         for lcs, path in commons.items():
             a[lcs] = 1 / path[0] if path[0] else 1
             b[lcs] = 1 / path[1] if path[1] else 1
 
+        # Tomamos ambos vectores de pesos y calculamos la distancia del coseno entre ellos
         return cosine_similarity(np.array([[*a.values()]]), np.array([[*b.values()]]))[0][0]
     
     # overriding method to close both retreivers to
