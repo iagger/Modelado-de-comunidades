@@ -1,0 +1,15 @@
+
+Para arrancar y probar la ApiRest:
+
+ - Crear un main con el siguiente código:
+
+	import api_rest
+	app = api_rest.Sanic.get_app('api-rest')
+	app.run(host='0.0.0.0', port=8080, debug=True, workers=4)
+
+ - Para visualizar y lanzar las APIs se puede utilizar swagger o postman, por facilidad de uso e integración se recomienda postman.
+ - Ruta local para acceder al servidor:
+
+	Tipo GET  ->  http://localhost:8080/(nombre de la api)
+ 
+ - En headers/params/body añadir los parámetros necesarios para hacer la consulta.
