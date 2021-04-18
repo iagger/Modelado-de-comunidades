@@ -5,8 +5,9 @@ from fcache.cache import FileCache
 from collections import OrderedDict
 from json.decoder import JSONDecodeError
 from SPARQLWrapper import SPARQLWrapper, JSON
-from IPython.display import display
 import pandas as pd
+
+PATHS = json.load(open("configuration.cfg"))["PATHS"]
       
 def sparqlQuery(query=None):
     if not query==None:
@@ -54,7 +55,7 @@ class PropertyRetreiver:
     """
     """
     
-    def __init__(self, identifiers, cache_dir='../data/cache'):
+    def __init__(self, identifiers, cache_dir=PATHS['CACHE']):
         identifiers.sort()
         self.__propertyName__ = ''.join(identifiers)
         self.__property__ = '|'.join(['wdt:' + id for id in identifiers])

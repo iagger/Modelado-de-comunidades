@@ -1,8 +1,11 @@
 from fcache.cache import FileCache
+import json
+
+PATHS = json.load(open("configuration.cfg"))["PATHS"]
 
 class CachedSimilarity():
 
-    def __init__(self, appname, cache_dir='../data'):
+    def __init__(self, appname, cache_dir=PATHS['CACHE']):
         self._cacheFile_ = FileCache('communities.' + appname, flag='cs', app_cache_dir=cache_dir)
 
     def computeSimilarity(self, A, B):

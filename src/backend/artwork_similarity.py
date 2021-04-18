@@ -1,4 +1,7 @@
-from cachedSimilarity import CachedSimilarity
+from cached_similarity import CachedSimilarity
+import json
+
+PATHS = json.load(open("configuration.cfg"))["PATHS"]
 
 ################################################################################
 ############################## Depicts Similarity ##############################
@@ -59,7 +62,7 @@ def findLeastCommonSubsumer(entity_a, entity_b, ret, max_depth=1):
 
 class DepictsSimilarity(CachedSimilarity):
 
-    def __init__(self, depth=1, cache_dir='../data/cache'):
+    def __init__(self, depth=1, cache_dir=PATHS['CACHE']):
         super().__init__('artworkSimilarity.depicts.depth' + str(depth), cache_dir)
         self.__superclassRetreiver__ = PropertyRetreiver(['P279', 'P31'])
         self.__depictsRetreiver__ = PropertyRetreiver(['P180'])
@@ -112,7 +115,7 @@ from my_sparql import PropertyRetreiver
 
 class SizeSimilarity(CachedSimilarity):
 
-    def __init__(self, cache_dir='../data/cache'):
+    def __init__(self, cache_dir=PATHS['CACHE']):
         super().__init__('artworkSimilarity.picture.size', cache_dir)
         self.__heightRetriever__ = PropertyRetreiver(['P2048'])
         self.__widthRetriever__ = PropertyRetreiver(['P2049'])
@@ -152,7 +155,7 @@ import math
 
 class DominantColorSimilarity(CachedSimilarity):
 
-    def __init__(self, artworks_CSV='../data/originales/Prado_artworks_wikidata.csv', cache_dir='../data/cache'):
+    def __init__(self, artworks_CSV=PATHS['ARTWORKS_DATA'], cache_dir=PATHS['CACHE']):
         super().__init__('artworkSimilarity.picture.dominantColor', cache_dir)
         self.__pics__ = pd.read_csv(artworks_CSV)[['wd:paintingID', 'Image URL']] 
 
@@ -200,7 +203,7 @@ import pandas as pd
 
 class ArtistSimilarity(CachedSimilarity):
 
-    def __init__(self, artworks_CSV='../data/originales/Prado_artworks_wikidata.csv', cache_dir='../data/cache'):
+    def __init__(self, artworks_CSV=PATHS['ARTWORKS_DATA'], cache_dir=PATHS['CACHE']):
         super().__init__('artworkSimilarity.artist', cache_dir)
         self.__artist__ = pd.read_csv(artworks_CSV)[['wd:paintingID', 'Artist', 'Category']] 
 
@@ -234,7 +237,7 @@ from skimage import io
 
 class ImageMSESimilarity(CachedSimilarity):
 
-    def __init__(self, artworks_CSV='../data/originales/Prado_artworks_wikidata.csv', cache_dir='../data/cache'):
+    def __init__(self, artworks_CSV=PATHS['ARTWORKS_DATA'], cache_dir=PATHS['CACHE']):
         super().__init__('artworkSimilarity.picture.mse_sim', cache_dir)
         self.__pics__ = pd.read_csv(artworks_CSV)[['wd:paintingID', 'Image URL']] 
 
@@ -277,7 +280,7 @@ Partial_Similarities = [DepictsSimilarity(4),
                         ArtistSimilarity(),
                         ImageMSESimilarity()]
 
-PradoArtworks = pd.read_csv("../data/originales/Prado_artworks_wikidata.csv")
+PradoArtworks = pd.read_csv(PATHS['ARTWORKS_DATA'])
 
 def checkWeights(weights):
     if not len(weights) or sum(weights) > 1.:
