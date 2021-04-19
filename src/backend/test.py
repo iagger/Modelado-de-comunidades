@@ -1,4 +1,5 @@
 from artwork_similarity import *
+from users_similarity import *
 import pandas as pd
 import json
 
@@ -16,3 +17,5 @@ paintingIDS = pd.read_csv(PATHS['ARTWORKS_DATA'])['wd:paintingID'].unique()
 
 # Recuperamos las similitudes parciales con los wd como argumento
 print(sim.getSimilarity(paintingIDS[1], paintingIDS[3]))
+
+sim.close()
