@@ -283,7 +283,7 @@ Partial_Similarities = [DepictsSimilarity(4),
 PradoArtworks = pd.read_csv(PATHS['ARTWORKS_DATA'])
 
 def checkWeights(weights):
-    if not len(weights) or sum(weights) > 1.:
+    if not len(weights) or np.greater(round(sum(weights)), round(1)):
         return np.ones(len(Partial_Similarities)) * (1 / len(Partial_Similarities))
     else:
         return np.array(weights)
