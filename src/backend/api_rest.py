@@ -34,34 +34,7 @@ async def index(request):
 async def index(request):
     try:
         id = request.args.get("id")
-        artworks = MostSimilarArtworks(id, k=5, weights=[])
-        sims = []
-        data = open(PATHS['ARTWORKS_DATA'])
-        reader = csv.DictReader(data, delimiter=',')
-        for i in artworks:
-            for row in reader:
-                if row['wd:paintingID'] == i[1]:
-                    x = {
-                        "Title": row['Title'],
-                        "Similarity": i[0],
-                        "Category": row['Category'],
-                        "Artist": row['Artist'],
-                        "Image": row['Image URL']
-                    }
-                    sims.append(x)
-                    data.seek(0)
-                    break
-        for row in reader:
-            if row['wd:paintingID'] == id:
-                art = {
-                    "Selected artwork": id,
-                    "Title": row['Title'],
-                    "Category": row['Category'],
-                    "Artist": row['Artist'],
-                    "Image": row['Image URL'],
-                    "Similar artworks":
-                        sims
-                }
+        art = findSimilars(id, weightsReq=[])
         return sanjson(art)
     except:
         return sanjson({"Message": "Artwork ID not found"}, status=400)
@@ -79,34 +52,42 @@ async def index(request):
         weightsReq.append(round(data["Color"], 1))
         weightsReq.append(round(data["Artist"], 1))
         weightsReq.append(round(data["ImageMSE"], 1))
-        artworks = MostSimilarArtworks(id, k=5, weights=weightsReq)
-        sims = []
-        data = open(PATHS['ARTWORKS_DATA'])
-        reader = csv.DictReader(data, delimiter=',')
-        for i in artworks:
-            for row in reader:
-                if row['wd:paintingID'] == i[1]:
-                    x = {
-                        "Title": row['Title'],
-                        "Similarity": i[0],
-                        "Category": row['Category'],
-                        "Artist": row['Artist'],
-                        "Image": row['Image URL']
-                    }
-                    sims.append(x)
-                    data.seek(0)
-                    break
-        for row in reader:
-            if row['wd:paintingID'] == id:
-                art = {
-                    "Selected artwork": id,
-                    "Title": row['Title'],
-                    "Category": row['Category'],
-                    "Artist": row['Artist'],
-                    "Image": row['Image URL'],
-                    "Similar artworks":
-                        sims
-                }
+        art = findSimilars(id, weightsReq)
         return sanjson(art)
     except:
         return sanjson({"Message": "Artwork ID not found"}, status=400)
+
+# Método auxiliar para montar el JSON del cuadro recibido y sus similares
+def findSimilars(id, weightsReq):
+    if len(weightsReq):
+        artworks = MostSimilarArtworks(id, k=5, weights=weightsReq)
+    else:
+        artworks = MostSimilarArtworks(id, k=5, weights=weightsReq)
+    sims = []
+    data = open(PATHS['ARTWORKS_DATA'])
+    reader = csv.DictReader(data, delimiter=',')
+    for i in artworks:
+        for row in reader:
+            if row['wd:paintingID'] == i[1]:
+                x = {
+                    "Title": row['Title'],
+                    "Similarity": i[0],
+                    "Category": row['Category'],
+                    "Artist": row['Artist'],
+                    "Image": row['Image URL']
+                }
+                sims.append(x)
+                data.seek(0)
+                break
+    for row in reader:
+        if row['wd:paintingID'] == id:
+            art = {
+                "Selected artwork": id,
+                "Title": row['Title'],
+                "Category": row['Category'],
+                "Artist": row['Artist'],
+                "Image": row['Image URL'],
+                "Similar artworks":
+                    sims
+            }
+    return art
