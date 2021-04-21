@@ -1,7 +1,9 @@
 from cached_similarity import CachedSimilarity
 import json
 
-PATHS = json.load(open("configuration.cfg"))["PATHS"]
+cfg = json.load(open("configuration.cfg"))
+PATHS = cfg["PATHS"]
+RANDOM_STATE = cfg["RANDOM_STATE"]
 
 ################################################################################
 ############################## Depicts Similarity ##############################
@@ -33,8 +35,7 @@ def findLeastCommonSubsumer(entity_a, entity_b, ret, max_depth=1):
         max_depth           profundidad máxima de la búsqueda
     DEVUELVE
         entities    tupla con las entidades objeto de la búsqueda
-        lcs         antepasados comunes más cercanos. None si no se encuentra ninguno
-        path        tupla que indica la distancia de cada entidad inicial al antepasado común. (-1, -1) si no se encuentra ninguo
+        lcs         diccionario con antepasados comunes más cercanos y las distancias de cada entidad a ellos. None si no se encuentra ninguno
     '''
     # Estructuras auxiliares para almacenar los antepasados encontrados y en que profundidad se hizo 
     depths_a = { entity_a : 0 }
@@ -170,7 +171,7 @@ class DominantColorSimilarity(CachedSimilarity):
         url = self.__pics__.loc[self.__pics__['wd:paintingID'] == entity]['Image URL'].to_list()[0]
         img = imio.imread(url)
         # Hace Kmeans
-        clt = KMeans(n_clusters=3)
+        clt = KMeans(n_clusters=3, random_state=RANDOM_STATE)
         clt_1 = clt.fit(img.reshape(-1, 3))
         # Crea el array de porcentajes de color
         perc = self.__colorPercentage(clt_1)
@@ -225,7 +226,6 @@ class ArtistSimilarity(CachedSimilarity):
 
 import pandas as pd
 from skimage import img_as_float
-from skimage.metrics import structural_similarity as ssim
 from skimage.metrics import normalized_root_mse
 from skimage.transform import resize
 from skimage import io
@@ -247,12 +247,9 @@ class ImageMSESimilarity(CachedSimilarity):
             img2 = resize(img2, (max0, max1))
             img1 = resize(img1, (max0, max1))
 
-        mse = normalized_root_mse(img1, img2, normalization='min-max')
-        simiStruc = ssim(img1 , img2 , multichannel = True)
+        mse = (normalized_root_mse(img1, img2, normalization='min-max') + normalized_root_mse(img2, img1, normalization='min-max')) / 2
 
-        indiceSimilitud = ((1 - mse) + simiStruc) / 2
-
-        return indiceSimilitud
+        return round((1 - mse), 5)
 
     
     def computeSimilarity(self, A, B):
@@ -302,12 +299,12 @@ def MostSimilarArtworks(artwork, k=5, weights=[]):
 ############################### Artwork Similarity Debug #################################
 ##########################################################################################
 
-def checkSimetry(sim):
-    wds = PradoArtworks['wd:paintingID']
-    for i in range(len(wds)):
-        for j in range(i, len(wds)):
-            ij = sim.getSimilarity(wds[i], wds[j])
-            ji = sim.getSimilarity(wds[j], wds[i])
+def checkSimetry(sim, samples):
+    for i in range(len(samples)):
+        for j in range(i, len(samples)):
+            ij = sim.computeSimilarity(samples[i], samples[j])
+            ji = sim.computeSimilarity(samples[j], samples[i])
             if ij != ji:
-                print(wds[i], wds[j], ' are not simetrical sim_ij = ', ij, ' sim_ji = ', ji)
-
+                print(samples[i], samples[j], ' are NOT simetrical sim_ij = ', ij, ' sim_ji = ', ji)
+            else:
+                print(samples[i], samples[j], ' are simetrical')
