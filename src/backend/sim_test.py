@@ -5,7 +5,7 @@ import json
 
 PATHS = json.load(open("configuration.cfg"))["PATHS"]
 
-sim = DepictsSimilarity(depth=4)  # depth=3|2|1
+sim = DepictsSimilarity(depth=3)  # depth=3|2|1
 #sim = SizeSimilarity()
 #sim = DominantColorSimilarity()
 #sim = ArtistSimilarity()
@@ -16,6 +16,8 @@ sim = DepictsSimilarity(depth=4)  # depth=3|2|1
 paintingIDS = pd.read_csv(PATHS['ARTWORKS_DATA'])['wd:paintingID'].unique()
 
 # Recuperamos las similitudes parciales con los wd como argumento
-print(sim.getSimilarity(paintingIDS[1], paintingIDS[3]))
+print(sim.getSimilarity(paintingIDS[3], paintingIDS[1])) # recompute=True para recalcular la similitud obviando el contenido de la cache
+
+checkSimetry(sim, paintingIDS)
 
 sim.close()
