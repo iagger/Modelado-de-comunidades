@@ -2,12 +2,15 @@ from sanic import Sanic
 from sanic.response import json as sanjson
 import csv
 from artwork_similarity import *
+from decimal import *
 from sanic.response import text
+from sanic.response import html
 
 PATHS = json.load(open("configuration.cfg"))["PATHS"]
 
 # Se instancia la aplicación Sanic
 app = Sanic(name='api-rest')
+
 
 # Restful API para listar todos los cuadros
 @app.get('/artworks')
@@ -47,13 +50,18 @@ async def index(request):
         id = request.args.get("id")
         weightsReq = []
         data = request.json
-        weightsReq.append(round(data["Depicts"], 1))
-        weightsReq.append(round(data["Size"], 1))
-        weightsReq.append(round(data["Color"], 1))
-        weightsReq.append(round(data["Artist"], 1))
-        weightsReq.append(round(data["ImageMSE"], 1))
-        art = findSimilars(id, weightsReq)
-        return sanjson(art)
+        for it in data:
+            weightsReq.append(float(Decimal(data.get(it))))
+
+        x = Decimal(0)
+        for i in weightsReq:
+            x += Decimal(str(i))
+
+        if x != 1.0:
+            return sanjson({"Message": "Invalid weights"}, status=400)
+        else:
+            art = findSimilars(id, weightsReq)
+            return sanjson(art)
     except:
         return sanjson({"Message": "Artwork ID not found"}, status=400)
 

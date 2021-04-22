@@ -175,7 +175,7 @@ class DominantColorSimilarity(CachedSimilarity):
         url = self.__pics__.loc[self.__pics__['wd:paintingID'] == entity]['Image URL'].to_list()[0]
         img = imio.imread(url)
         # Hace Kmeans
-        clt = KMeans(n_clusters=3)
+        clt = KMeans(n_clusters=3, random_state=2)
         clt_1 = clt.fit(img.reshape(-1, 3))
         # Crea el array de porcentajes de color
         perc = self.__colorPercentage(clt_1)
@@ -273,6 +273,7 @@ class ImageMSESimilarity(CachedSimilarity):
 import heapq
 import numpy as np
 import pandas as pd
+from decimal import *
 
 Partial_Similarities = [DepictsSimilarity(4),
                         SizeSimilarity(),
@@ -283,7 +284,7 @@ Partial_Similarities = [DepictsSimilarity(4),
 PradoArtworks = pd.read_csv(PATHS['ARTWORKS_DATA'])
 
 def checkWeights(weights):
-    if not len(weights) or np.greater(round(sum(weights)), round(1)):
+    if not len(weights):
         return np.ones(len(Partial_Similarities)) * (1 / len(Partial_Similarities))
     else:
         return np.array(weights)
