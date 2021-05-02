@@ -1,31 +1,35 @@
-from cached_similarity import CachedSimilarity
-import json
-
-cfg = json.load(open("configuration.cfg"))
-PATHS = cfg["PATHS"]
-RANDOM_STATE = cfg["RANDOM_STATE"]
-
-################################################################################
-############################## Depicts Similarity ##############################
-################################################################################
-
-import math
 import ast
-import multiprocessing
+import math
+import heapq
+import colorsys
+import cv2 as cv
 import numpy as np
+import pandas as pd
+import imageio as imio
+import multiprocessing
+import matplotlib.pyplot as plt
+
+from skimage import io
+from collections import Counter
+from setup import PATHS, PARAMS
+from skimage import img_as_float
+from sklearn.cluster import KMeans
 from collections import OrderedDict
-from my_sparql import PropertyRetreiver
+from skimage.transform import resize
 from joblib import Parallel, delayed
-from sklearn.metrics.pairwise import cosine_similarity
+from my_sparql import PropertyRetreiver
+from cached_similarity import CachedSimilarity
+from skimage.metrics import normalized_root_mse
 
-cos_sim = lambda x, y : round(x.dot(y) / (np.sqrt(x.dot(x)) * np.sqrt(y.dot(y))), 5)
 
-def minPath(a, b):
+_cos_sim = lambda x, y : round(x.dot(y) / (np.sqrt(x.dot(x)) * np.sqrt(y.dot(y))), 5)
+
+def _minPath(a, b):
     if sum(a) < sum(b) or (sum(a) == sum(b) and max(a) <= max(b)):
         return a
     return b
 
-def findLeastCommonSubsumer(entity_a, entity_b, ret, max_depth=1):  
+def _findLeastCommonSubsumer(entity_a, entity_b, ret, max_depth=1):  
     '''
     Busca el antepasado común más cercano de dos entidades en la profundidad máxima indicada
 
@@ -48,7 +52,7 @@ def findLeastCommonSubsumer(entity_a, entity_b, ret, max_depth=1):
             # Devolvemos el antepasado con camino más corto de todos los comunes encontrados
             min_path = (math.inf, math.inf)
             for common in intersection:
-                min_path = minPath(min_path, (depths_a.get(common), depths_b.get(common)))
+                min_path = _minPath(min_path, (depths_a.get(common), depths_b.get(common)))
             lcs = dict()
             for common in intersection:
                 cur_path = (depths_a.get(common), depths_b.get(common))
@@ -84,7 +88,7 @@ class DepictsSimilarity(CachedSimilarity):
         discards = set()
         commons = dict()
         # Buscamos superclases comunes para todos los depicts de A y B
-        for depicts, lcs in Parallel(n_jobs=-1)(delayed(findLeastCommonSubsumer)(da, db, self.__superclassRetreiver__, self.__maxdepth__) for da in exclusive_A for db in exclusive_B):  
+        for depicts, lcs in Parallel(n_jobs=-1)(delayed(_findLeastCommonSubsumer)(da, db, self.__superclassRetreiver__, self.__maxdepth__) for da in exclusive_A for db in exclusive_B):  
             if lcs is not None:
                 discards |= {depicts[0], depicts[1]}
                 commons |= {c : minPath(commons.get(c, (math.inf, math.inf)), p) for c, p in lcs.items()}
@@ -95,7 +99,7 @@ class DepictsSimilarity(CachedSimilarity):
         weights_b = OrderedDict({k : 1. for k in intersection} | {k : 1 / p[1] if p[1] else 1 for k, p in commons.items()} | {k : 0. for k in exclusive_A} | {k : 1. for k in exclusive_B})
 
         # Tomamos ambos vectores de pesos y calculamos la distancia del coseno entre ellos
-        return cos_sim(np.array([*weights_a.values()]), np.array([*weights_b.values()]))
+        return _cos_sim(np.array([*weights_a.values()]), np.array([*weights_b.values()]))
     
     # overriding method to close both retreivers to
     def close(self):
@@ -103,11 +107,6 @@ class DepictsSimilarity(CachedSimilarity):
         self.__superclassRetreiver__.close()
         self.__depictsRetreiver__.close()
 
-################################################################################
-############################### Size Similarity ################################
-################################################################################
-
-from my_sparql import PropertyRetreiver
 
 class SizeSimilarity(CachedSimilarity):
 
@@ -134,21 +133,6 @@ class SizeSimilarity(CachedSimilarity):
         self.__widthRetriever__.close()
 
 
-
-################################################################################
-########################## Dominant Color Similarity ###########################
-################################################################################
-
-import cv2 as cv
-import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
-import imageio as imio
-from collections import Counter
-from sklearn.cluster import KMeans
-import colorsys
-import math
-
 class DominantColorSimilarity(CachedSimilarity):
 
     def __init__(self, artworks_CSV=PATHS['ARTWORKS_DATA'], cache_dir=PATHS['CACHE']):
@@ -171,7 +155,7 @@ class DominantColorSimilarity(CachedSimilarity):
         url = self.__pics__.loc[self.__pics__['wd:paintingID'] == entity]['Image URL'].to_list()[0]
         img = imio.imread(url)
         # Hace Kmeans
-        clt = KMeans(n_clusters=3, random_state=RANDOM_STATE)
+        clt = KMeans(n_clusters=3, random_state=PARAMS['RANDOM_STATE'])
         clt_1 = clt.fit(img.reshape(-1, 3))
         # Crea el array de porcentajes de color
         perc = self.__colorPercentage(clt_1)
@@ -191,11 +175,6 @@ class DominantColorSimilarity(CachedSimilarity):
         distance = math.sqrt(dh * dh + ds * ds + dv * dv)
         return round(1. - (distance), 2)
 
-################################################################################
-############################## Artist Similarity ###############################
-################################################################################
-
-import pandas as pd
 
 class ArtistSimilarity(CachedSimilarity):
 
@@ -219,16 +198,6 @@ class ArtistSimilarity(CachedSimilarity):
     def close(self):
         super().close()
 
-
-################################################################################
-############################### MSE Similarity #################################
-################################################################################
-
-import pandas as pd
-from skimage import img_as_float
-from skimage.metrics import normalized_root_mse
-from skimage.transform import resize
-from skimage import io
 
 class ImageMSESimilarity(CachedSimilarity):
 
@@ -258,15 +227,7 @@ class ImageMSESimilarity(CachedSimilarity):
         return self.__mse_ssim(url1, url2)
 
 
-##########################################################################################
-################################## Artwork Similarity ####################################
-##########################################################################################
-
-import heapq
-import numpy as np
-import pandas as pd
-
-Partial_Similarities = [DepictsSimilarity(4),
+Partial_Similarities = [DepictsSimilarity(PARAMS['DEPICTS_SIM_DEPTH']),
                         SizeSimilarity(),
                         DominantColorSimilarity(),
                         ArtistSimilarity(),
@@ -287,24 +248,16 @@ def ArtworkSimilarity(A, B, weights=[]):
         partials.append(partial.getSimilarity(A, B))
     return (np.array(partials) * weights).sum()
 
-def MostSimilarArtworks(artwork, k=5, weights=[]):
+def kMostSimilarArtworks(artwork, k=5, weights=[]):
     q = []
-    for _, row in PradoArtworks.iterrows():
-        if row['wd:paintingID'] != artwork:
-            heapq.heappush(q, (ArtworkSimilarity(artwork, row['wd:paintingID'], weights), row['wd:paintingID']))
-    return heapq.nlargest(k, q)
+    for row in PradoArtworks['wd:paintingID'].unique():
+        heapq.heappush(q, (ArtworkSimilarity(artwork, row, weights), row))
+    return heapq.nlargest(k, q)[1:]
 
-
-##########################################################################################
-############################### Artwork Similarity Debug #################################
-##########################################################################################
-
-def checkSimetry(sim, samples):
-    for i in range(len(samples)):
-        for j in range(i, len(samples)):
-            ij = sim.computeSimilarity(samples[i], samples[j])
-            ji = sim.computeSimilarity(samples[j], samples[i])
-            if ij != ji:
-                print(samples[i], samples[j], ' are NOT simetrical sim_ij = ', ij, ' sim_ji = ', ji)
-            else:
-                print(samples[i], samples[j], ' are simetrical')
+def mostSimilarArtworks(artwork, threshold=.75, weights=[]):
+    q = []
+    for row in PradoArtworks['wd:paintingID'].unique():
+        sim = ArtworkSimilarity(artwork, row, weights)
+        if sim >= threshold:
+            heapq.heappush(q, (sim, row))
+    return heapq.nlargest(len(q), q)[1:]

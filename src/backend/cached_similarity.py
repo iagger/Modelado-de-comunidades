@@ -1,9 +1,7 @@
 from fcache.cache import FileCache
-import json
+from setup import PATHS
 
-PATHS = json.load(open("configuration.cfg"))["PATHS"]
-
-class CachedSimilarity():
+class CachedSimilarity(object):
 
     def __init__(self, appname, cache_dir=PATHS['CACHE']):
         self._cacheFile_ = FileCache('communities.' + appname, flag='cs', app_cache_dir=cache_dir)
