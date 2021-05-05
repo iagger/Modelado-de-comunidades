@@ -1,13 +1,14 @@
 import re
-import json
 import ast
+import pandas as pd
+from setup import PATHS
 from fcache.cache import FileCache
 from collections import OrderedDict
 from json.decoder import JSONDecodeError
 from SPARQLWrapper import SPARQLWrapper, JSON
-import pandas as pd
 
-PATHS = json.load(open("configuration.cfg"))["PATHS"]
+
+
       
 def sparqlQuery(query=None):
     if not query==None:

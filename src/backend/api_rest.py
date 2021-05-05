@@ -1,12 +1,10 @@
+import csv
 from sanic import Sanic
 from sanic.response import json as sanjson
-import csv
+from setup import PATHS
 from artwork_similarity import *
-from decimal import *
 from sanic.response import text
-from sanic.response import html
 
-PATHS = json.load(open("configuration.cfg"))["PATHS"]
 
 # Se instancia la aplicación Sanic
 app = Sanic(name='api-rest')
