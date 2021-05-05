@@ -44,7 +44,7 @@ async def index(request):
 
 
 # Restful API para listar los 5 cuadros más similares al que recibe, recibiendo pesos para las variables de similitud
-@app.post('/artworks/similarity/custom/artworkID')
+@app.post('/artworks/similarity/artworkID')
 async def index(request):
     try:
         id = request.args.get("id")
