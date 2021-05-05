@@ -1,4 +1,6 @@
 import csv
+from decimal import Decimal
+
 from sanic import Sanic
 from sanic.response import json as sanjson
 from setup import PATHS
@@ -20,6 +22,7 @@ async def index(request):
         for row in reader:
             x = {
                 "Title": row['Title'],
+                "Id": row['wd:paintingID'],
                 "Artist": row['Artist'],
                 "Category": row['Category'],
                 "Image": row['Image URL']
@@ -66,9 +69,9 @@ async def index(request):
 # Método auxiliar para montar el JSON del cuadro recibido y sus similares
 def findSimilars(id, weightsReq):
     if len(weightsReq):
-        artworks = MostSimilarArtworks(id, k=5, weights=weightsReq)
+        artworks = kMostSimilarArtworks(id, k=5, weights=weightsReq)
     else:
-        artworks = MostSimilarArtworks(id, k=5, weights=weightsReq)
+        artworks = kMostSimilarArtworks(id, k=5, weights=weightsReq)
     sims = []
     data = open(PATHS['ARTWORKS_DATA'])
     reader = csv.DictReader(data, delimiter=',')
