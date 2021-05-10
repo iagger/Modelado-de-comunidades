@@ -235,14 +235,19 @@ Partial_Similarities = [DepictsSimilarity(PARAMS['DEPICTS_SIM_DEPTH']),
 
 PradoArtworks = pd.read_csv(PATHS['ARTWORKS_DATA'])
 
-def checkWeights(weights):
-    if not len(weights) or np.greater(round(sum(weights)), round(1)):
-        return np.ones(len(Partial_Similarities)) * (1 / len(Partial_Similarities))
-    else:
-        return np.array(weights)
+def checkWeights(weights, length):
+    if not len(weights): # Si el vector está vacío devolvemos un vector con todos los pesos iguales
+        return np.ones(length) * (1 / length)
+    else: # Si no está vacío
+        weights = np.array(weights)
+        if len(weights) < length:   # Si es más corto que la longitud especificada, lo rellenamos con ceros
+            weights = np.concatenate((np.array(weights), np.zeros(length - len(weights))))
+        if (weights < 0).sum(): # Si hay algún valor negativo, desplazamos todos los valores sumándole el valor absoluto máximo del vector, quedando así todos en positivo
+            weights += abs(weights).max()
+        return weights / weights.sum()  # Nos aseguramos de que los pesos sumen 1. dividiendolos por su suma acumulada
 
 def ArtworkSimilarity(A, B, weights=[]):
-    weights = checkWeights(weights)
+    weights = checkWeights(weights, len(Partial_Similarities))
     partials = []
     for partial in Partial_Similarities:
         partials.append(partial.getSimilarity(A, B))
