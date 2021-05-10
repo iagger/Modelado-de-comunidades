@@ -242,6 +242,8 @@ def checkWeights(weights, length):
         weights = np.array(weights)
         if len(weights) < length:   # Si es más corto que la longitud especificada, lo rellenamos con ceros
             weights = np.concatenate((np.array(weights), np.zeros(length - len(weights))))
+        if length < len(weights):   # Si es más largo que la longitud especificada, quitamos los valores que exceden por el final
+            weights = weights[:length] + (sum(weights[length-len(weights):]) / length)
         if (weights < 0).sum(): # Si hay algún valor negativo, desplazamos todos los valores sumándole el valor absoluto máximo del vector, quedando así todos en positivo
             weights += abs(weights).max()
         return weights / weights.sum()  # Nos aseguramos de que los pesos sumen 1. dividiendolos por su suma acumulada
