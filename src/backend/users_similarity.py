@@ -48,7 +48,7 @@ class JaccardUserSimilarity(object):
         user1 : IDs de los usuarios
         user2 : IDs de los usuarios
         polarity : polaridad de los cuadros a recuperar de cada usuario
-        DEVUELVE
+        Returns:
         sim: coeficiente de similitud
         """
         artworks1 = set()
