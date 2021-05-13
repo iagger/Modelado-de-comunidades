@@ -3,6 +3,7 @@ import numpy as np
 import pandas as pd
 from setup import PATHS, PARAMS
 from sklearn_extra.cluster import KMedoids
+from cluster_information import clusterInfographic
 from users_similarity import JaccardUserSimilarity
 
 
@@ -28,3 +29,5 @@ km = KMedoids(n_clusters=k_centers, metric=usersDistance, random_state=PARAMS['R
 labels = km.labels_
 
 logging.debug("Labels [" + str(labels) + "]")
+
+clusterInfographic(users.reshape(-1,), labels, ("kmed" + str(k_centers) + "_" + str(weights)), usersDistance)

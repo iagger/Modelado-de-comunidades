@@ -5,6 +5,7 @@ from setup import PATHS, PARAMS
 from sklearn.cluster import dbscan
 from users_similarity import JaccardUserSimilarity
 
+
 logging.basicConfig(filename="data/log/dbscanResults.log", level=logging.DEBUG, format='%(asctime)s - %(levelname)s -> %(message)s')
 
 users = np.array(pd.read_csv(PATHS['USERS_DATA'])['userId']).reshape(-1,1)
@@ -26,3 +27,4 @@ logging.info("Run DBSCAN with PARAMS [eps = " + str(eps) + ", minClusterSize = "
 labels = dbscan(X=users, eps=eps, min_samples=minClusterSize, metric=usersDistance, n_jobs=-1)[1]
 
 logging.debug("Labels [" + str(labels) + "]")
+

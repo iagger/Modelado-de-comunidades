@@ -11,9 +11,14 @@ from matplotlib.backends.backend_pdf import PdfPages
 users = pd.read_csv(PATHS['USERS_DATA'])
 artworks = pd.read_csv(PATHS['ARTWORKS_DATA'])
 
-def showImagesHorizontally(image_url, image_labels, fig_title=""):
-    rowSize = ceil(len(image_url)/2)
-    fig, ax = plt.subplots(2, rowSize)
+users.replace('<12', '0-12', inplace=True)
+users.replace('>70', '70+', inplace=True)
+
+someColors = ['r', 'g', 'b', 'y', 'k', 'orange', 'c']
+
+def showImagesHorizontally(image_url, image_labels, fig_title="", rows=2):
+    rowSize = ceil(len(image_url)/rows)
+    fig, ax = plt.subplots(rows, rowSize)
     fig.suptitle(fig_title, fontsize=20)
     for i in range(len(image_url)):
         image = imio.imread(image_url[i])
@@ -30,9 +35,20 @@ def separateClusters(objects, labels):
             clusters[c] = objects[pos]
     return clusters
 
-def clusterInfographic(objects, labels, title):
+def buildDistanceMatrix(distFun, userList):
+    N = len(userList)
+    distMatrix = np.zeros((N,N))
+    for i in range(N):
+        for j in range(i,N):
+            dist = distFun(userList[i], userList[j])
+            distMatrix[i][j] = dist
+            distMatrix[j][i] = dist
 
-    pp = PdfPages('data/clustering/' + title + '.pdf')
+    return distMatrix
+
+def clusterInfographic(objects, labels, title, distanceFun):
+
+    pp = PdfPages('data/clustering/' + title.replace(' ','') + '.pdf')
     
     for cluster, clusterUsers in separateClusters(objects, labels).items():
 
@@ -61,12 +77,14 @@ def clusterInfographic(objects, labels, title):
                 bottomArtworksImage.append(row['Image URL'])
                 bottomArtworksTitle.append(row['Title'])
 
+        distMatrix = buildDistanceMatrix(distanceFun, clusterUsers.reshape(-1,1))
+
         # Demographic information
         demoColumns = ["country", "age", "gender"]
         demoFig, demoAx = plt.subplots(1, len(demoColumns))
         demoFig.suptitle('Cluster ' + str(cluster) + ' demographic information (Size = ' + str(clusterDemoData.shape[0]) + ')', fontsize=16)
         for i, column in enumerate(clusterDemoData[demoColumns]):
-            clusterDemoData[column].value_counts().plot(kind="bar", ax=demoAx[i], figsize=(10,6)).set_title(column.upper())
+            clusterDemoData[column].value_counts().plot(kind="bar", ax=demoAx[i], figsize=(10,6), color=someColors[i]).set_title(column.upper())
         demoFig.savefig(pp, format='pdf')
 
         # TOP ARTWORKS
@@ -77,13 +95,11 @@ def clusterInfographic(objects, labels, title):
         bottomFig = showImagesHorizontally(bottomArtworksImage, bottomArtworksTitle, "BOTTOM artworks in cluster " + str(cluster))
         bottomFig.savefig(pp, format='pdf')
 
+        heatmapFig = plt.figure("Cluster " + str(cluster) + " heat map")
+        plt.imshow(distMatrix, cmap='hot', interpolation='nearest')
+        heatmapFig.savefig(pp, format='pdf')
+
         plt.close('all')
     
     pp.close()
     
-
-labels = np.array([9,0,9,9,9,9,9,9,2,1,2,4,2,4,7,8,5,8,9,9,0,9,2,1,9,4,9,8,5,3,0,9,9,9,2,7,1,9,9,9,3,9,6,9,2,2,2,0,3,9,0,2,2,2,4,0,6,7,9,2,0,2,4,1,1,4,1,0,2,2,1,2,0,0,9,3,7,0,6,6,1,6,6,6,1,0,9,3,0,3,9,3,0,2,1,3,4,0,2,0,8,7,6,4,0,0,1,7,1,0,2,0,0,0,0,8,0,0,9,0,1,8,1,0,0,0,6,0,4,0,3,0,4,4,1,0,0,2,1,1,9,4,4,0,4,0,0,0,4,4,0,0,0,0,0,4,0,4,0,0,4,4,4,0,4,2,2,4,0,0,4])
-
-usersId = np.array(users['userId'].to_list())
-clusterInfographic(usersId, labels, "prueba")
-

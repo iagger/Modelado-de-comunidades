@@ -81,3 +81,4 @@ def averagePairSimilarity(userId1, userId2, polarity='positive', weights=[]):
             similarities.append(ArtworkSimilarity(idArtWorkToWD(a1), idArtWorkToWD(a2), weights))
     return np.average(np.array(similarities))
 
+
