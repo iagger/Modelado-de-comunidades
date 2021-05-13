@@ -1,13 +1,10 @@
-import ast
+
 import math
 import heapq
 import colorsys
-import cv2 as cv
 import numpy as np
 import pandas as pd
 import imageio as imio
-import multiprocessing
-import matplotlib.pyplot as plt
 
 from skimage import io
 from collections import Counter
@@ -148,7 +145,6 @@ class DominantColorSimilarity(CachedSimilarity):
             perc[i] = np.round(counter[i] / n_pixels, 2)
         perc = dict(sorted(perc.items()))
         return perc
-
 
     def __dominantColor(self, entity):
         # Lee imagen

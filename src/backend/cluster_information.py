@@ -1,0 +1,89 @@
+import matplotlib.pyplot as plt
+import numpy as np
+import imageio as imio
+from users_similarity import myFavouriteArtworks
+from collections import Counter
+from math import ceil
+import pandas as pd
+from setup import PATHS
+from matplotlib.backends.backend_pdf import PdfPages
+
+users = pd.read_csv(PATHS['USERS_DATA'])
+artworks = pd.read_csv(PATHS['ARTWORKS_DATA'])
+
+def showImagesHorizontally(image_url, image_labels, fig_title=""):
+    rowSize = ceil(len(image_url)/2)
+    fig, ax = plt.subplots(2, rowSize)
+    fig.suptitle(fig_title, fontsize=20)
+    for i in range(len(image_url)):
+        image = imio.imread(image_url[i])
+        ax[i//rowSize][i%rowSize].imshow(image)
+        ax[i//rowSize][i%rowSize].set_title(image_labels[i], fontsize=8)
+        ax[i//rowSize][i%rowSize].axis('off')
+    return fig
+
+def separateClusters(objects, labels):
+    clusters = dict()
+    for c in np.unique(labels):
+        pos = np.where(labels == c)
+        if len(pos):
+            clusters[c] = objects[pos]
+    return clusters
+
+def clusterInfographic(objects, labels, title):
+
+    pp = PdfPages('data/clustering/' + title + '.pdf')
+    
+    for cluster, clusterUsers in separateClusters(objects, labels).items():
+
+        # Prepare cluster information
+        clusterIndices = []
+        for i, row in users.iterrows():
+            if row['userId'] in clusterUsers:
+                clusterIndices.append(i)
+        clusterDemoData = users.iloc[clusterIndices]
+
+        positiveArtworks = []
+        negativeArtworks = []
+        for u in clusterUsers:
+            positiveArtworks += list(myFavouriteArtworks(userId=u, polarity='positive'))
+            negativeArtworks += list(myFavouriteArtworks(userId=u, polarity='negative'))
+
+        topArtworksID = [i[0] for i in Counter(positiveArtworks).most_common(6)]
+        bottomArtworksID = [i[0] for i in Counter(negativeArtworks).most_common(6)]
+        topArtworksImage, topArtworksTitle = [], []
+        bottomArtworksImage, bottomArtworksTitle = [], []
+        for i, row in artworks.iterrows():
+            if row['ID'] in topArtworksID:
+                topArtworksImage.append(row['Image URL'])
+                topArtworksTitle.append(row['Title'])
+            if row['ID'] in bottomArtworksID:
+                bottomArtworksImage.append(row['Image URL'])
+                bottomArtworksTitle.append(row['Title'])
+
+        # Demographic information
+        demoColumns = ["country", "age", "gender"]
+        demoFig, demoAx = plt.subplots(1, len(demoColumns))
+        demoFig.suptitle('Cluster ' + str(cluster) + ' demographic information (Size = ' + str(clusterDemoData.shape[0]) + ')', fontsize=16)
+        for i, column in enumerate(clusterDemoData[demoColumns]):
+            clusterDemoData[column].value_counts().plot(kind="bar", ax=demoAx[i], figsize=(10,6)).set_title(column.upper())
+        demoFig.savefig(pp, format='pdf')
+
+        # TOP ARTWORKS
+        topFig = showImagesHorizontally(topArtworksImage, topArtworksTitle, "TOP artworks in cluster " + str(cluster))
+        topFig.savefig(pp, format='pdf')
+
+        # BOTTOM ARTWORKS
+        bottomFig = showImagesHorizontally(bottomArtworksImage, bottomArtworksTitle, "BOTTOM artworks in cluster " + str(cluster))
+        bottomFig.savefig(pp, format='pdf')
+
+        plt.close('all')
+    
+    pp.close()
+    
+
+labels = np.array([9,0,9,9,9,9,9,9,2,1,2,4,2,4,7,8,5,8,9,9,0,9,2,1,9,4,9,8,5,3,0,9,9,9,2,7,1,9,9,9,3,9,6,9,2,2,2,0,3,9,0,2,2,2,4,0,6,7,9,2,0,2,4,1,1,4,1,0,2,2,1,2,0,0,9,3,7,0,6,6,1,6,6,6,1,0,9,3,0,3,9,3,0,2,1,3,4,0,2,0,8,7,6,4,0,0,1,7,1,0,2,0,0,0,0,8,0,0,9,0,1,8,1,0,0,0,6,0,4,0,3,0,4,4,1,0,0,2,1,1,9,4,4,0,4,0,0,0,4,4,0,0,0,0,0,4,0,4,0,0,4,4,4,0,4,2,2,4,0,0,4])
+
+usersId = np.array(users['userId'].to_list())
+clusterInfographic(usersId, labels, "prueba")
+

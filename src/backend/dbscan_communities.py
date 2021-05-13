@@ -8,9 +8,9 @@ from users_similarity import JaccardUserSimilarity
 logging.basicConfig(filename="data/log/dbscanResults.log", level=logging.DEBUG, format='%(asctime)s - %(levelname)s -> %(message)s')
 
 users = np.array(pd.read_csv(PATHS['USERS_DATA'])['userId']).reshape(-1,1)
-eps = .25
-minClusterSize = 2
-mode = 5
+eps = PARAMS['DBSCAN_EPS']
+minClusterSize = PARAMS['DBSCAN_SAMPLES']
+mode = PARAMS['k_MOST_SIMILAR']
 weights = [60, # Depicts
            10, # Size
            10, # DominantColor
@@ -19,7 +19,7 @@ weights = [60, # Depicts
 
 sim = JaccardUserSimilarity(mode=mode, weights=weights)
 def usersDistance(u1, u2):
-    return 1 - sim.getSimilarity(u1[0], u2[0])
+    return 1 - sim.getSimilarity(u1[0], u2[0]) # polarity = 'positive' & 'negative'
 
 logging.info("Run DBSCAN with PARAMS [eps = " + str(eps) + ", minClusterSize = " + str(minClusterSize) + ", mode = " + str(mode) + ", weights = " + str(weights) + "]")
 
