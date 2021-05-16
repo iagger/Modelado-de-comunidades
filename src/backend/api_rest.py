@@ -72,7 +72,7 @@ async def index(request):
 @app.get('/artworks/similarity/clusters')
 async def index(request):
     try:
-        return await file("RUTA ARCHIVO")
+        return await file(PATHS['CLUSTER_VISUAL'])
     except:
         return sanjson({"Message": "There is no file for this clusters"}, status=400)
 
