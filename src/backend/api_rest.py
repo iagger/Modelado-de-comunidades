@@ -5,6 +5,7 @@ from sanic import Sanic
 from sanic.response import json as sanjson
 from setup import PATHS
 from artwork_similarity import *
+from sanic.response import file
 from sanic.response import text
 
 
@@ -65,6 +66,16 @@ async def index(request):
             return sanjson(art)
     except:
         return sanjson({"Message": "Artwork ID not found"}, status=400)
+
+
+# Restful API para mostrar archivo que contiene las comunidades visualmente
+@app.get('/artworks/similarity/clusters')
+async def index(request):
+    try:
+        return await file("RUTA ARCHIVO")
+    except:
+        return sanjson({"Message": "There is no file for this clusters"}, status=400)
+
 
 # Método auxiliar para montar el JSON del cuadro recibido y sus similares
 def findSimilars(id, weightsReq):
