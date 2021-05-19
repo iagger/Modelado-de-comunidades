@@ -5,7 +5,7 @@
 `pip install -r requirements.txt`
 
 ## Tutorial inicio API
-    ######Para arrancar y probar la ApiRest con todo nivel de detalle:
+###### Para arrancar y probar la ApiRest con todo nivel de detalle:
 
     - Arrancar servidor con: python src/backend/api_main.py
     
@@ -14,7 +14,7 @@
     - En el navegador, ir al enlace: http://localhost:8000/index.html
 
 
-    ######Para arrancar y probar la ApiRest a nivel de visualización básica de los resultados:
+###### Para arrancar y probar la ApiRest a nivel de visualización básica de los resultados:
 
     - Arrancar servidor con: src/backend/api_main.py
 
