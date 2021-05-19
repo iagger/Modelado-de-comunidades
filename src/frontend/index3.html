@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/miCSS.css">
+    <link rel="shortcut icon" href="/images/UCMFDI_favicon.png">
+    <title>Similitud entre cuadros [UCM - FDI]</title>
+  </head>
+  <body class="miFondoCuadros">
+        <div class="row vh-100">
+
+            <div class="col-5 py-5">
+                <div class="container text tituloCuadros">
+                    <h1 class="display-4 tituloCuadros"><b>Seleccione un cuadro</b></h1>
+                </div>
+                <br><br>
+                <div class="container">
+                    <select class="rounded border border-3 form-select selector border border-info" name="estados" id="estados"></select>
+                </div>
+                <br><br>
+                <div class="container">
+                    <h5 class="display-8 subTitulo" id="titulo" name="titulo"><b></b></h5>
+                    <h5 class="display-8 subTitulo" id="autor" name="autor"><b></b></h5>
+                    <h5 class="display-8 subTitulo" id="categoria" name="categoria"><b></b></h5>
+                </div>
+                <div class="container d-flex align-items-start d-flex justify-content-start">
+                    <img class="rounded mx-auto d-block border border-3" name = 'imagenes' id = 'imagenes' src="images/museo-del-prado.jpg" width="100%" height="80%"/>
+                    <input id='artworkID' name='artworkID' type='hidden' value='nulo'></input>
+                </div>
+            </div>
+
+            <div class="col-2 py-5">
+              <div class="container text tituloCuadros">
+                <h1 class="display-4 tituloCuadros"><b>Pesos</b></h1>
+              </div>
+              <br><br>
+              <div class="container tituloCuadros">
+                <label> <strong><h4>Autor</h4></strong></label>
+                <br><br>
+                <input class="rounded border border-3 border border-info" name="autorSim" id="autorSim" type="number" value="0.20" data-decimals="2" min="0" max="1" step="0.01" width="100%"/>
+              </div>
+              <br><br>
+              <div class="container tituloCuadros">
+                <label> <strong><h4>Tamaño cuadro</h4></strong></label>
+                <br><br>
+                <input class="rounded border border-3 border border-info" name="sizeSim" id="sizeSim" type="number" value="0.20" data-decimals="2" min="0" max="1" step="0.01" width="100%"/>
+              </div>
+              <br><br>
+              <div class="container tituloCuadros">
+                <label> <strong><h4>Color predominante</h4></strong></label>
+                <br><br>
+                <input class="rounded border border-3 border border-info" name="colorSim" id="colorSim" type="number" value="0.20" data-decimals="2" min="0" max="1" step="0.01" width="100%"/>
+              </div>
+              <br><br>
+              <div class="container tituloCuadros">
+                <label> <strong><h4>Elementos en el cuadro</h4></strong></label>
+                <br><br>
+                <input class="rounded border border-3 border border-info" name="depicsSim" id="depicsSim" type="number" value="0.20" data-decimals="2" min="0" max="1" step="0.01" width="100%"/>
+              </div>
+              <br><br>
+              <div class="container tituloCuadros">
+                <label> <strong><h4>Error cuadratico medio</h4></strong></label>
+                <br><br>
+                <input class="rounded border border-3 border border-info" name="rsmSim" id="rsmSim" type="number" value="0.20" data-decimals="2" min="0" max="1" step="0.01" width="100%"/>
+              </div>
+              <br><br>
+              <div class="container container d-flex align-items-center d-flex justify-content-center tituloCuadros">
+                <button class="rounded border border-4 button border border-success " name="aceptar" id="aceptar"><b>GENERA SIMILARES</b></select>
+              </div>
+
+            </div>
+
+            <div class="col-5 py-5">
+                <div class="container text tituloCuadros">
+                    <h1 class="display-4 tituloCuadros"><b>Cuadros más similares</b></h1>
+                </div>
+                <br><br>
+                <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                      <div class="carousel-item active">
+                        <div class="container">
+                            <h5 class="display-8 subTitulo" id="titulo1" name="titulo1"><b></b></h5>
+                            <h5 class="display-8 subTitulo" id="autor1" name="autor1"><b></b></h5>
+                            <h5 class="display-8 subTitulo" id="categoria1" name="categoria1"><b></b></h5>
+                            <h5 class="display-8 subTitulo" id="indice1" name="indice1"><b></b></h5>
+                        </div>
+                        <div class="container">
+                            <img class="d-block w-100" id="imagenes1" name="imagenes1" width="80%" height="80%">
+                        </div>
+                      </div>
+                      <div class="carousel-item">
+                        <div class="container">
+                            <h5 class="display-8 subTitulo" id="titulo2" name="titulo2"><b></b></h5>
+                            <h5 class="display-8 subTitulo" id="autor2" name="autor2"><b></b></h5>
+                            <h5 class="display-8 subTitulo" id="categoria2" name="categoria2"><b></b></h5>
+                            <h5 class="display-8 subTitulo" id="indice2" name="indice2"><b></b></h5>
+                        </div>
+                        <div class="container">
+                            <img class="d-block w-100" id="imagenes2" name="imagenes2" width="80%" height="80%">
+                        </div>
+                      </div>
+                      <div class="carousel-item">
+                        <div class="container">
+                            <h5 class="display-8 subTitulo" id="titulo3" name="titulo3"><b></b></h5>
+                            <h5 class="display-8 subTitulo" id="autor3" name="autor3"><b></b></h5>
+                            <h5 class="display-8 subTitulo" id="categoria3" name="categoria3"><b></b></h5>
+                            <h5 class="display-8 subTitulo" id="indice3" name="indice3"><b></b></h5>
+                        </div>
+                        <div class="container">
+                            <img class="d-block w-100" id="imagenes3" name="imagenes3" width="80%" height="80%">
+                        </div>
+                      </div>
+                      <div class="carousel-item">
+                        <div class="container">
+                            <h5 class="display-8 subTitulo" id="titulo4" name="titulo4"><b></b></h5>
+                            <h5 class="display-8 subTitulo" id="autor4" name="autor4"><b></b></h5>
+                            <h5 class="display-8 subTitulo" id="categoria4" name="categoria4"><b></b></h5>
+                            <h5 class="display-8 subTitulo" id="indice4" name="indice4"><b></b></h5>
+                        </div>
+                        <div class="container">
+                            <img class="d-block w-100" id="imagenes4" name="imagenes4" width="80%" height="80%">
+                        </div>
+                      </div>
+                      <div class="carousel-item">
+                        <div class="container">
+                            <h5 class="display-8 subTitulo" id="titulo5" name="titulo5"><b></b></h5>
+                            <h5 class="display-8 subTitulo" id="autor5" name="autor5"><b></b></h5>
+                            <h5 class="display-8 subTitulo" id="categoria5" name="categoria5"><b></b></h5>
+                            <h5 class="display-8 subTitulo" id="indice5" name="indice5"><b></b></h5>
+                        </div>
+                        <div class="container">
+                            <img class="d-block w-100" id="imagenes5" name="imagenes5" width="80%" height="80%">
+                        </div> 
+                      </div>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                      <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                      <span class="visually-hidden">Next</span>
+                    </button>
+                  </div>
+            </div>
+
+        </div>
+      </div>
+
+    <script src= "js/bootstrap.min.js"></script> 
+    <script src= "js/jquery-3.6.0.js"></script>
+    <script src= "js/miJs.js"></script>  
+  </body>
+</html>
