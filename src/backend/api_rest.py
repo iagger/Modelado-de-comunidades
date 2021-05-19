@@ -7,11 +7,13 @@ from setup import PATHS
 from artwork_similarity import *
 from sanic.response import file
 from sanic.response import text
-
+from sanic_cors import CORS, cross_origin
 
 # Se instancia la aplicación Sanic
 app = Sanic(name='api-rest')
 
+# Permite CORS en todos los dominios
+CORS(app)
 
 # Restful API para listar todos los cuadros
 @app.get('/artworks')
