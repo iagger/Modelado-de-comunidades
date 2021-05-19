@@ -255,7 +255,7 @@ def kMostSimilarArtworks(artwork, k=5, weights=[]):
     q = []
     for row in PradoArtworks['wd:paintingID'].unique():
         heapq.heappush(q, (ArtworkSimilarity(artwork, row, weights), row))
-    return heapq.nlargest(k, q)[1:]
+    return heapq.nlargest(k+1, q)[1:]
 
 def mostSimilarArtworks(artwork, threshold=.75, weights=[]):
     q = []
