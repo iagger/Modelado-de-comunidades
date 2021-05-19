@@ -4,10 +4,7 @@ from math import inf
 from joblib import Parallel, delayed
 
 class GeneticAlgorithm(object):
-    """
-
-    """
-
+    
     def __init__(self, fitness, chromosomeSize, boundaries, algorithm_parameters):
         
         assert chromosomeSize == len(boundaries), "Boundaries dimension must be the same than chromosome size"

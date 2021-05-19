@@ -88,7 +88,7 @@ class DepictsSimilarity(CachedSimilarity):
         for depicts, lcs in Parallel(n_jobs=-1)(delayed(_findLeastCommonSubsumer)(da, db, self.__superclassRetreiver__, self.__maxdepth__) for da in exclusive_A for db in exclusive_B):  
             if lcs is not None:
                 discards |= {depicts[0], depicts[1]}
-                commons |= {c : minPath(commons.get(c, (math.inf, math.inf)), p) for c, p in lcs.items()}
+                commons |= {c : _minPath(commons.get(c, (math.inf, math.inf)), p) for c, p in lcs.items()}
 
         exclusive_A -= discards
         exclusive_B -= discards
@@ -188,7 +188,7 @@ class ArtistSimilarity(CachedSimilarity):
         if self.__getArtist(A) == self.__getArtist(B):
             return 1.
         if self.__getCategory(A) == self.__getCategory(B):
-            return .75
+            return .85
         return .0   
 
     def close(self):
