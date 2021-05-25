@@ -48,7 +48,7 @@ class GeneticAlgorithm(object):
                 self.bestScore = self.scores[0]
                 self.bestChromosome = self.population[0].copy()
 
-            print("Generation ", it," -> [Best chromosome ", str(self.bestChromosome), " got score " + str(self.bestScore), " ]")
+            print("Generation ", it," -> [Best chromosome ", str(self.bestChromosome), " got score " + str(self.bestScore), "]")
             
             # Isolate ELITE
             elite = self.population[:self.numElite].copy()

@@ -43,15 +43,23 @@ def buildDistanceMatrix(distFun, userList):
             dist = distFun(userList[i], userList[j])
             distMatrix[i][j] = dist
             distMatrix[j][i] = dist
-
     return distMatrix
+
+def relabelClusters(labels):
+    uniques = np.unique(labels)
+    labelMap = dict(zip(uniques, np.arange(len(uniques))))
+    mapper = np.vectorize(lambda l : labelMap[l])
+    return mapper(labels.copy())
 
 def clusterInfographic(objects, labels, title, distanceFun):
 
     pp = PdfPages('data/clustering/' + title.replace(' ','') + '.pdf')
-    
+
+    labels = relabelClusters(labels)
+
     for cluster, clusterUsers in separateClusters(objects, labels).items():
 
+        
         # Prepare cluster information
         clusterIndices = []
         for i, row in users.iterrows():
@@ -87,19 +95,26 @@ def clusterInfographic(objects, labels, title, distanceFun):
             clusterDemoData[column].value_counts().plot(kind="bar", ax=demoAx[i], figsize=(10,6), color=someColors[i]).set_title(column.upper())
         demoFig.savefig(pp, format='pdf')
 
-        # TOP ARTWORKS
-        topFig = showImagesHorizontally(topArtworksImage, topArtworksTitle, "TOP artworks in cluster " + str(cluster))
-        topFig.savefig(pp, format='pdf')
+        try:
+            # TOP ARTWORKS
+            topFig = showImagesHorizontally(topArtworksImage, topArtworksTitle, "TOP artworks in cluster " + str(cluster))
+            topFig.savefig(pp, format='pdf')
 
-        # BOTTOM ARTWORKS
-        bottomFig = showImagesHorizontally(bottomArtworksImage, bottomArtworksTitle, "BOTTOM artworks in cluster " + str(cluster))
-        bottomFig.savefig(pp, format='pdf')
+            # BOTTOM ARTWORKS
+            bottomFig = showImagesHorizontally(bottomArtworksImage, bottomArtworksTitle, "BOTTOM artworks in cluster " + str(cluster))
+            bottomFig.savefig(pp, format='pdf')
 
-        heatmapFig = plt.figure("Cluster " + str(cluster) + " heat map")
-        plt.imshow(distMatrix, cmap='hot', interpolation='nearest')
-        heatmapFig.savefig(pp, format='pdf')
+            # Heatmap
+            heatmapFig = plt.figure("Cluster " + str(cluster) + " heat map")
+            plt.imshow(distMatrix, cmap='hot', interpolation='nearest')
+            heatmapFig.savefig(pp, format='pdf')
 
-        plt.close('all')
+            plt.close('all')
+        except:
+            print("ERROR: Couldnt draw cluster " + str(i))
+            print(' TOP ' + str(len(topArtworksTitle)))
+            print(' BOTTOM ' + str(len(bottomArtworksImage)))
+            plt.close('all')
     
     pp.close()
     

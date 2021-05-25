@@ -57,7 +57,14 @@ class JaccardUserSimilarity(object):
         artworks2 = set()
         for a2 in myFavouriteArtworks(user2, polarity):
             artworks2 |= self.__mostSimilarArtworks__[idArtWorkToWD(a2)]
-        return len(artworks1 & artworks2) / max(1, len(artworks1 | artworks2))
+        
+        if len(artworks1 | artworks2): # Si la union no es vacía devolvemos el coeficiente de Jaccard de ambos conjuntos
+            return len(artworks1 & artworks2) / len(artworks1 | artworks2)
+        else: # Si es vacía ...
+            if user1 == user2: # ... y el usuario coincide, similitud máxima
+                return 1.
+            else: # ... y no coincide el usuario, similitud mínima
+                return 0.
 
 
 ################################################################################
