@@ -81,10 +81,7 @@ async def index(request):
 
 # Método auxiliar para montar el JSON del cuadro recibido y sus similares
 def findSimilars(id, weightsReq):
-    if len(weightsReq):
-        artworks = kMostSimilarArtworks(id, k=5, weights=weightsReq)
-    else:
-        artworks = kMostSimilarArtworks(id, k=5, weights=weightsReq)
+    artworks = kMostSimilarArtworks(id, k=5, weights=weightsReq)
     sims = []
     data = open(PATHS['ARTWORKS_DATA'])
     reader = csv.DictReader(data, delimiter=',')
