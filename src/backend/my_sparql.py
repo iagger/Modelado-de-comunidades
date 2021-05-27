@@ -6,9 +6,6 @@ from fcache.cache import FileCache
 from collections import OrderedDict
 from json.decoder import JSONDecodeError
 from SPARQLWrapper import SPARQLWrapper, JSON
-
-
-
       
 def sparqlQuery(query=None):
     if not query==None:

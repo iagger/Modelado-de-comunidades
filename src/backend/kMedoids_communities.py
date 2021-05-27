@@ -9,12 +9,12 @@ from users_similarity import JaccardUserSimilarity
 
 
 users = np.array(pd.read_csv(PATHS['USERS_DATA'])['userId']).reshape(-1,1)
-mode = PARAMS['k_MOST_SIMILAR']
-weights = [30, # Depicts
-           21, # Size
-           4, # DominantColor
-           24, # Artist
-           21] # MSE
+mode = .5
+weights = [35, # Depicts
+           5, # Size
+           5, # DominantColor
+           35, # Artist
+           20] # MSE
 
 sim = JaccardUserSimilarity(mode=mode, weights=weights)
 def usersDistance(u1, u2):
