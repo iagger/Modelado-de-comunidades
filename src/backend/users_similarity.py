@@ -9,7 +9,7 @@ _artWorksData = pd.read_csv(PATHS['ARTWORKS_DATA'])
 
 def myFavouriteArtworks(userId, polarity):
     """Devuelve el conjunto de todos los cuadros que tienen una polaridad positiva para una persona"""
-    return np.array(_emotionsData[(_emotionsData['userId'] == userId) & (_emotionsData['Polarity'] == polarity)]['artworkId'])
+    return np.unique(np.array(_emotionsData[(_emotionsData['userId'] == userId) & (_emotionsData['Polarity'] == polarity)]['artworkId']))
 
 def idArtWorkToWD(idArtwork):
     """Dado un id de un cuadro devuelve su qualificador wd""" 

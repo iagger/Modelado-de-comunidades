@@ -3,30 +3,27 @@ import numpy as np
 import pandas as pd
 from setup import PATHS, PARAMS
 from sklearn.cluster import dbscan
-from cluster_information import clusterInfographic
 from users_similarity import JaccardUserSimilarity
-
-
-logging.basicConfig(filename="data/log/dbscanResults.log", level=logging.DEBUG, format='%(asctime)s - %(levelname)s -> %(message)s')
+from cluster_visualization import clusterInfographic
+from cluster_caracterization import clustersInformation
 
 users = np.array(pd.read_csv(PATHS['USERS_DATA'])['userId']).reshape(-1,1)
-eps = PARAMS['DBSCAN_EPS']
-minClusterSize = PARAMS['DBSCAN_SAMPLES']
-mode = PARAMS['k_MOST_SIMILAR']
-weights = [35, # Depicts
-           5, # Size
-           5, # DominantColor
-           35, # Artist
-           20] # MSE
+params = {'eps' : PARAMS['DBSCAN_EPS'],
+          'min_samples' : PARAMS['DBSCAN_SAMPLES'],
+          'mode'    :PARAMS['k_MOST_SIMILAR'],
+          'weights' : {'Depicts'        :   0, 
+                       'Size'           :   0, 
+                       'DominantColor'  :   0, 
+                       'Artist'         :   0, 
+                       'MSE'            :   100}}
 
-sim = JaccardUserSimilarity(mode=mode, weights=weights)
+sim = JaccardUserSimilarity(mode=params['mode'], weights=[*params['weights'].values()])
 def usersDistance(u1, u2):
-    return 1 - sim.getSimilarity(u1[0], u2[0]) # polarity = 'positive' & 'negative'
+    return 1 - sim.getSimilarity(u1[0], u2[0], polarity = 'positive')
 
-#logging.info("Run DBSCAN with PARAMS [eps = " + str(eps) + ", minClusterSize = " + str(minClusterSize) + ", mode = " + str(mode) + ", weights = " + str(weights) + "]")
+labels = dbscan(X=users, eps=params['eps'], min_samples=params['min_samples'], metric=usersDistance, n_jobs=-1)[1]
 
-labels = dbscan(X=users, eps=eps, min_samples=minClusterSize, metric=usersDistance, n_jobs=-1)[1]
-
-#logging.debug("Labels [" + str(labels) + "]")
-
-clusterInfographic(users.reshape(-1,), labels, ("dbscan_" + str(weights)), usersDistance)
+metadata={'Method' : 'DBSCAN',
+          'Params' : params}
+info = clustersInformation(users.reshape(-1,), labels, metadata, "dbscan_" + str([*params['weights'].values()]))
+clusterInfographic(info, "dbscan_" + str([*params['weights'].values()]))
