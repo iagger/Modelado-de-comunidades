@@ -3,8 +3,16 @@ from setup import PATHS
 
 class CachedSimilarity(object):
 
-    def __init__(self, appname, cache_dir=PATHS['CACHE']):
+    def __init__(self, appname, fullname, shortName, cache_dir=PATHS['CACHE']):
         self._cacheFile_ = FileCache('communities.' + appname, flag='cs', app_cache_dir=cache_dir)
+        self._fullName_ = fullname
+        self._shortName_ = shortName
+
+    def getFullName(self):
+        return self._fullName_
+    
+    def getShortName(self):
+        return self._shortName_
 
     def computeSimilarity(self, A, B):
         raise NotImplementedError("Each subclass must implement this method")

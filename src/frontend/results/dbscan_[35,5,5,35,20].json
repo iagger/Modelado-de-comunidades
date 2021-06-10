@@ -505,6 +505,7 @@
         }
     }, 
     "Metadata": {
+        "Desc": "Pesos sugeridos por un profesional en arte", 
         "Method": "DBSCAN", 
         "Params": {
             "eps": 0.35, 
@@ -513,8 +514,8 @@
             "weights": {
                 "Artist": 35, 
                 "Depicts": 35, 
-                "DominantColor": 5, 
-                "MSE": 20, 
+                "Dominantcolor": 5, 
+                "Imagemse": 20, 
                 "Size": 5
             }
         }

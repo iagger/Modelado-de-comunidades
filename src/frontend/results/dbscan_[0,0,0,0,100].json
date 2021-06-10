@@ -288,6 +288,7 @@
         }
     }, 
     "Metadata": {
+        "Desc": "Similitud de obras basada completamente en el error cuadratico medio por pixel", 
         "Method": "DBSCAN", 
         "Params": {
             "eps": 0.35, 
@@ -296,8 +297,8 @@
             "weights": {
                 "Artist": 0, 
                 "Depicts": 0, 
-                "DominantColor": 0, 
-                "MSE": 100, 
+                "Dominantcolor": 0, 
+                "Imagemse": 100, 
                 "Size": 0
             }
         }

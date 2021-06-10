@@ -498,6 +498,7 @@
         }
     }, 
     "Metadata": {
+        "Desc": "Similitud de obras basada completamente en artistas", 
         "Method": "DBSCAN", 
         "Params": {
             "eps": 0.35, 
@@ -506,8 +507,8 @@
             "weights": {
                 "Artist": 100, 
                 "Depicts": 0, 
-                "DominantColor": 0, 
-                "MSE": 0, 
+                "Dominantcolor": 0, 
+                "Imagemse": 0, 
                 "Size": 0
             }
         }

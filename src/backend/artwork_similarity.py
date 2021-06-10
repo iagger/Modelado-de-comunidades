@@ -69,7 +69,7 @@ def _findLeastCommonSubsumer(entity_a, entity_b, ret, max_depth=1):
 class DepictsSimilarity(CachedSimilarity):
 
     def __init__(self, depth=1, cache_dir=PATHS['CACHE']):
-        super().__init__('artworkSimilarity.depicts.depth' + str(depth), cache_dir)
+        super().__init__('artworkSimilarity.depicts.depth' + str(depth), 'depicts', 'dep',  cache_dir)
         self.__superclassRetreiver__ = PropertyRetreiver(['P279', 'P31'])
         self.__depictsRetreiver__ = PropertyRetreiver(['P180'])
         self.__maxdepth__ = depth
@@ -108,7 +108,7 @@ class DepictsSimilarity(CachedSimilarity):
 class SizeSimilarity(CachedSimilarity):
 
     def __init__(self, cache_dir=PATHS['CACHE']):
-        super().__init__('artworkSimilarity.picture.size', cache_dir)
+        super().__init__('artworkSimilarity.picture.size', 'size', 'sz', cache_dir)
         self.__heightRetriever__ = PropertyRetreiver(['P2048'])
         self.__widthRetriever__ = PropertyRetreiver(['P2049'])
 
@@ -133,7 +133,7 @@ class SizeSimilarity(CachedSimilarity):
 class DominantColorSimilarity(CachedSimilarity):
 
     def __init__(self, artworks_CSV=PATHS['ARTWORKS_DATA'], cache_dir=PATHS['CACHE']):
-        super().__init__('artworkSimilarity.picture.dominantColor', cache_dir)
+        super().__init__('artworkSimilarity.picture.dominantColor', 'dominantColor', 'dom', cache_dir)
         self.__pics__ = pd.read_csv(artworks_CSV)[['wd:paintingID', 'Image URL']] 
 
     def __colorPercentage(self, cluster):
@@ -175,7 +175,7 @@ class DominantColorSimilarity(CachedSimilarity):
 class ArtistSimilarity(CachedSimilarity):
 
     def __init__(self, artworks_CSV=PATHS['ARTWORKS_DATA'], cache_dir=PATHS['CACHE']):
-        super().__init__('artworkSimilarity.artist', cache_dir)
+        super().__init__('artworkSimilarity.artist', 'artist', 'art', cache_dir)
         self.__artist__ = pd.read_csv(artworks_CSV)[['wd:paintingID', 'Artist', 'Category']] 
 
     def __getArtist(self, entity):
@@ -198,7 +198,7 @@ class ArtistSimilarity(CachedSimilarity):
 class ImageMSESimilarity(CachedSimilarity):
 
     def __init__(self, artworks_CSV=PATHS['ARTWORKS_DATA'], cache_dir=PATHS['CACHE']):
-        super().__init__('artworkSimilarity.picture.mse_sim', cache_dir)
+        super().__init__('artworkSimilarity.picture.mse_sim', 'imageMSE', 'mse', cache_dir)
         self.__pics__ = pd.read_csv(artworks_CSV)[['wd:paintingID', 'Image URL']] 
 
     def __mse_ssim(self, url1, url2):
@@ -232,7 +232,7 @@ Partial_Similarities = [DepictsSimilarity(PARAMS['DEPICTS_SIM_DEPTH']),
 PradoArtworks = pd.read_csv(PATHS['ARTWORKS_DATA'])
 
 def checkWeights(weights, length):
-    if not len(weights): # Si el vector está vacío devolvemos un vector con todos los pesos iguales
+    if not len(weights) or sum(weights) == 0: # Si el vector está vacío devolvemos un vector con todos los pesos iguales
         return np.ones(length) * (1 / length)
     else: # Si no está vacío
         weights = np.array(weights)
