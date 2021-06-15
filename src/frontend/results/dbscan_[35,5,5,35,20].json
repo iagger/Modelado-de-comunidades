@@ -1,0 +1,523 @@
+{
+    "Clusters": {
+        "Cluster 0": {
+            "Artistic": {
+                "Least valued": [
+                    {
+                        "Image": "https://uploads4.wikiart.org/images/francisco-goya/execution-of-the-defenders-of-madrid-3rd-may-1808-1814.jpg!Large.jpg", 
+                        "Negative": 4, 
+                        "Positive": 1, 
+                        "Title": "The Third of May 1808"
+                    }, 
+                    {
+                        "Image": "https://uploads2.wikiart.org/00237/images/francisco-goya/the-straw-manikin.jpg!Large.jpg", 
+                        "Negative": 7, 
+                        "Positive": 0, 
+                        "Title": "The Straw Manikin"
+                    }, 
+                    {
+                        "Image": "https://uploads8.wikiart.org/images/jan-van-hemessen/the-surgeon.jpg!Large.jpg", 
+                        "Negative": 16, 
+                        "Positive": 0, 
+                        "Title": "The Surgeon"
+                    }
+                ], 
+                "Most valued": [
+                    {
+                        "Image": "https://uploads2.wikiart.org/images/dirk-bouts/the-right-wing-of-the-pearl-of-brabant-saint-christopher.jpg!Large.jpg", 
+                        "Negative": 0, 
+                        "Positive": 4, 
+                        "Title": "The Pearl of Brabant"
+                    }, 
+                    {
+                        "Image": "https://uploads2.wikiart.org/images/hans-memling/adoration-of-the-magi-whole-triptych.jpg!Large.jpg", 
+                        "Negative": 0, 
+                        "Positive": 2, 
+                        "Title": "Adoration of the Magi Triptych"
+                    }, 
+                    {
+                        "Image": "https://uploads1.wikiart.org/images/dirk-bouts/polyptych-of-the-virgin-the-annunciation-the-visitation-the-adoration-of-the-angels-and-the.jpg!Large.jpg", 
+                        "Negative": 1, 
+                        "Positive": 3, 
+                        "Title": "Triptych of the Virgin's Life"
+                    }
+                ], 
+                "Popular artists": [
+                    "Dirk Bouts", 
+                    "Andrea del Sarto", 
+                    "Dieric Bouts"
+                ], 
+                "Top Category": "High Renaissance", 
+                "Unpopular artists": [
+                    "Francisco de Zurbaran", 
+                    "Francisco Goya", 
+                    "Jan van Hemessen"
+                ]
+            }, 
+            "Demographics": {
+                "age": {
+                    "0-12": 0.047619047619047616, 
+                    "13-17": 0.07142857142857142, 
+                    "18-24": 0.11904761904761904, 
+                    "25-34": 0.19047619047619047, 
+                    "35-44": 0.30952380952380953, 
+                    "45-54": 0.19047619047619047, 
+                    "55-64": 0.047619047619047616, 
+                    "65-70": 0.023809523809523808
+                }, 
+                "country": {
+                    "Argenitina": 0.023809523809523808, 
+                    "Canada": 0.023809523809523808, 
+                    "France": 0.047619047619047616, 
+                    "Germany": 0.023809523809523808, 
+                    "Italy": 0.09523809523809523, 
+                    "Japan": 0.07142857142857142, 
+                    "Mexico": 0.047619047619047616, 
+                    "Other": 0.19047619047619047, 
+                    "Spain": 0.47619047619047616
+                }, 
+                "gender": {
+                    "female": 0.4523809523809524, 
+                    "male": 0.5476190476190477
+                }
+            }, 
+            "Emotions": {
+                "agreeableness": 0.022123893805309734, 
+                "anger": 0.07079646017699115, 
+                "anticipation": 0.09734513274336283, 
+                "arrogance": 0.030973451327433628, 
+                "disagreeableness": 0.035398230088495575, 
+                "disgust": 0.0752212389380531, 
+                "fear": 0.14601769911504425, 
+                "gratitude": 0.035398230088495575, 
+                "happiness": 0.030973451327433628, 
+                "humility": 0.04424778761061947, 
+                "love": 0.03982300884955752, 
+                "optimism": 0.01327433628318584, 
+                "other": 0.017699115044247787, 
+                "pessimism": 0.048672566371681415, 
+                "regret": 0.022123893805309734, 
+                "sadness": 0.07964601769911504, 
+                "shame": 0.048672566371681415, 
+                "shyness": 0.030973451327433628, 
+                "surprise": 0.05309734513274336, 
+                "trust": 0.05752212389380531
+            }, 
+            "Size": 42
+        }, 
+        "Cluster 1": {
+            "Artistic": {
+                "Least valued": [
+                    {
+                        "Image": "https://uploads0.wikiart.org/images/francisco-goya/saturn-devouring-one-of-his-children-1823.jpg!Large.jpg", 
+                        "Negative": 6, 
+                        "Positive": 0, 
+                        "Title": "Saturn Devouring His Son"
+                    }, 
+                    {
+                        "Image": "https://uploads7.wikiart.org/images/pieter-bruegel-the-elder/the-triumph-of-death.jpg!Large.jpg", 
+                        "Negative": 8, 
+                        "Positive": 1, 
+                        "Title": "The Triumph of Death"
+                    }, 
+                    {
+                        "Image": "https://uploads8.wikiart.org/images/jan-van-hemessen/the-surgeon.jpg!Large.jpg", 
+                        "Negative": 29, 
+                        "Positive": 21, 
+                        "Title": "The Surgeon"
+                    }
+                ], 
+                "Most valued": [
+                    {
+                        "Image": "https://uploads2.wikiart.org/00237/images/francisco-goya/the-straw-manikin.jpg!Large.jpg", 
+                        "Negative": 15, 
+                        "Positive": 47, 
+                        "Title": "The Straw Manikin"
+                    }, 
+                    {
+                        "Image": "https://uploads8.wikiart.org/images/gerard-david/a-rest-during-the-flight-to-egypt.jpg!Large.jpg", 
+                        "Negative": 9, 
+                        "Positive": 35, 
+                        "Title": "Rest on the Flight into Egypt"
+                    }, 
+                    {
+                        "Image": "https://uploads6.wikiart.org/images/francisco-zurbaran/st-rufina-of-seville-1640.jpg!Large.jpg", 
+                        "Negative": 13, 
+                        "Positive": 30, 
+                        "Title": "St. Rufina of Seville"
+                    }
+                ], 
+                "Popular artists": [
+                    "Francisco Goya", 
+                    "Francisco de Zurbaran", 
+                    "Gerard David"
+                ], 
+                "Top Category": "Northern Renaissance", 
+                "Unpopular artists": [
+                    "Caravaggio", 
+                    "Pieter Bruegel the Elder", 
+                    "Jan van Hemessen"
+                ]
+            }, 
+            "Demographics": {
+                "age": {
+                    "0-12": 0.015384615384615385, 
+                    "13-17": 0.03076923076923077, 
+                    "18-24": 0.16923076923076924, 
+                    "25-34": 0.13846153846153847, 
+                    "35-44": 0.23076923076923078, 
+                    "45-54": 0.23076923076923078, 
+                    "55-64": 0.12307692307692308, 
+                    "65-70": 0.046153846153846156, 
+                    "70+": 0.015384615384615385
+                }, 
+                "country": {
+                    "Argenitina": 0.03076923076923077, 
+                    "Brazil": 0.015384615384615385, 
+                    "Canada": 0.015384615384615385, 
+                    "France": 0.12307692307692308, 
+                    "Germany": 0.046153846153846156, 
+                    "Italy": 0.1076923076923077, 
+                    "Japan": 0.07692307692307693, 
+                    "Other": 0.15384615384615385, 
+                    "Spain": 0.36923076923076925, 
+                    "USA": 0.06153846153846154
+                }, 
+                "gender": {
+                    "female": 0.4307692307692308, 
+                    "male": 0.5692307692307692
+                }
+            }, 
+            "Emotions": {
+                "agreeableness": 0.018121911037891267, 
+                "anger": 0.0214168039538715, 
+                "anticipation": 0.08319604612850082, 
+                "arrogance": 0.03212520593080725, 
+                "disagreeableness": 0.018121911037891267, 
+                "disgust": 0.032948929159802305, 
+                "fear": 0.0757825370675453, 
+                "gratitude": 0.05271828665568369, 
+                "happiness": 0.13756177924217464, 
+                "humility": 0.07660626029654036, 
+                "love": 0.07331136738056013, 
+                "optimism": 0.06919275123558484, 
+                "other": 0.006589785831960461, 
+                "pessimism": 0.029654036243822075, 
+                "regret": 0.018945634266886325, 
+                "sadness": 0.057660626029654036, 
+                "shame": 0.019769357495881382, 
+                "shyness": 0.011532125205930808, 
+                "surprise": 0.04118616144975288, 
+                "trust": 0.12355848434925865
+            }, 
+            "Size": 65
+        }, 
+        "Cluster 2": {
+            "Artistic": {
+                "Least valued": [
+                    {
+                        "Image": "https://uploads8.wikiart.org/images/jan-van-hemessen/the-surgeon.jpg!Large.jpg", 
+                        "Negative": 1, 
+                        "Positive": 0, 
+                        "Title": "The Surgeon"
+                    }, 
+                    {
+                        "Image": "https://uploads5.wikiart.org/images/hans-baldung/three-ages-of-man-and-three-graces-1539.jpg!Large.jpg", 
+                        "Negative": 1, 
+                        "Positive": 0, 
+                        "Title": "The Three Ages of Man and Death"
+                    }
+                ], 
+                "Most valued": [
+                    {
+                        "Image": "https://uploads2.wikiart.org/00237/images/francisco-goya/the-straw-manikin.jpg!Large.jpg", 
+                        "Negative": 8, 
+                        "Positive": 18, 
+                        "Title": "The Straw Manikin"
+                    }, 
+                    {
+                        "Image": "https://uploads3.wikiart.org/images/francisco-goya/summer-or-the-harvest-1786.jpg!Large.jpg", 
+                        "Negative": 1, 
+                        "Positive": 4, 
+                        "Title": "Summer, or The Harvest"
+                    }, 
+                    {
+                        "Image": "https://uploads7.wikiart.org/images/francisco-goya/charles-iv-of-spain-and-his-family-1800.jpg!Large.jpg", 
+                        "Negative": 0, 
+                        "Positive": 2, 
+                        "Title": "Charles IV of Spain and his family"
+                    }
+                ], 
+                "Popular artists": [
+                    "Francisco Goya", 
+                    "Hans Baldung", 
+                    "Jan van Hemessen"
+                ], 
+                "Top Category": "Romanticism", 
+                "Unpopular artists": [
+                    "Francisco Goya", 
+                    "Hans Baldung", 
+                    "Jan van Hemessen"
+                ]
+            }, 
+            "Demographics": {
+                "age": {
+                    "0-12": 0.08333333333333333, 
+                    "13-17": 0.08333333333333333, 
+                    "18-24": 0.041666666666666664, 
+                    "25-34": 0.20833333333333334, 
+                    "35-44": 0.20833333333333334, 
+                    "45-54": 0.16666666666666666, 
+                    "55-64": 0.125, 
+                    "65-70": 0.08333333333333333
+                }, 
+                "country": {
+                    "Canada": 0.041666666666666664, 
+                    "France": 0.08333333333333333, 
+                    "Italy": 0.041666666666666664, 
+                    "Mexico": 0.125, 
+                    "Other": 0.20833333333333334, 
+                    "Spain": 0.375, 
+                    "USA": 0.125
+                }, 
+                "gender": {
+                    "female": 0.4583333333333333, 
+                    "male": 0.5416666666666666
+                }
+            }, 
+            "Emotions": {
+                "agreeableness": 0.03296703296703297, 
+                "anger": 0.03296703296703297, 
+                "anticipation": 0.07692307692307693, 
+                "arrogance": 0.01098901098901099, 
+                "disagreeableness": 0.01098901098901099, 
+                "disgust": 0.01098901098901099, 
+                "fear": 0.06593406593406594, 
+                "gratitude": 0.054945054945054944, 
+                "happiness": 0.17582417582417584, 
+                "humility": 0.054945054945054944, 
+                "love": 0.0989010989010989, 
+                "optimism": 0.10989010989010989, 
+                "pessimism": 0.02197802197802198, 
+                "regret": 0.02197802197802198, 
+                "sadness": 0.04395604395604396, 
+                "shame": 0.01098901098901099, 
+                "shyness": 0.03296703296703297, 
+                "surprise": 0.03296703296703297, 
+                "trust": 0.0989010989010989
+            }, 
+            "Size": 24
+        }, 
+        "Cluster 3": {
+            "Artistic": {
+                "Least valued": [
+                    {
+                        "Image": "https://uploads7.wikiart.org/images/pieter-bruegel-the-elder/the-triumph-of-death.jpg!Large.jpg", 
+                        "Negative": 1, 
+                        "Positive": 0, 
+                        "Title": "The Triumph of Death"
+                    }, 
+                    {
+                        "Image": "https://uploads8.wikiart.org/images/jan-van-hemessen/the-surgeon.jpg!Large.jpg", 
+                        "Negative": 1, 
+                        "Positive": 0, 
+                        "Title": "The Surgeon"
+                    }
+                ], 
+                "Most valued": [
+                    {
+                        "Image": "https://uploads1.wikiart.org/images/francisco-zurbaran/appearance-of-st-peter-to-st-peter-nolasco-1629.jpg!Large.jpg", 
+                        "Negative": 4, 
+                        "Positive": 6, 
+                        "Title": "Apparition of the Apostle Peter to Saint Peter Nolasco"
+                    }, 
+                    {
+                        "Image": "https://uploads6.wikiart.org/images/francisco-zurbaran/st-rufina-of-seville-1640.jpg!Large.jpg", 
+                        "Negative": 5, 
+                        "Positive": 6, 
+                        "Title": "St. Rufina of Seville"
+                    }, 
+                    {
+                        "Image": "https://uploads0.wikiart.org/images/francisco-zurbaran/still-life.jpg!Large.jpg", 
+                        "Negative": 0, 
+                        "Positive": 1, 
+                        "Title": "Still Life with Pots"
+                    }
+                ], 
+                "Popular artists": [
+                    "Francisco de Zurbaran", 
+                    "Jan van Hemessen", 
+                    "Pieter Bruegel the Elder"
+                ], 
+                "Top Category": "Baroque", 
+                "Unpopular artists": [
+                    "Francisco de Zurbaran", 
+                    "Jan van Hemessen", 
+                    "Pieter Bruegel the Elder"
+                ]
+            }, 
+            "Demographics": {
+                "age": {
+                    "0-12": 0.07692307692307693, 
+                    "13-17": 0.15384615384615385, 
+                    "18-24": 0.15384615384615385, 
+                    "35-44": 0.23076923076923078, 
+                    "45-54": 0.23076923076923078, 
+                    "55-64": 0.15384615384615385
+                }, 
+                "country": {
+                    "Canada": 0.07692307692307693, 
+                    "France": 0.07692307692307693, 
+                    "Italy": 0.15384615384615385, 
+                    "Other": 0.15384615384615385, 
+                    "Spain": 0.23076923076923078, 
+                    "USA": 0.3076923076923077
+                }, 
+                "gender": {
+                    "female": 0.3076923076923077, 
+                    "male": 0.6923076923076923
+                }
+            }, 
+            "Emotions": {
+                "agreeableness": 0.041666666666666664, 
+                "anger": 0.020833333333333332, 
+                "anticipation": 0.041666666666666664, 
+                "arrogance": 0.020833333333333332, 
+                "disagreeableness": 0.0625, 
+                "disgust": 0.041666666666666664, 
+                "fear": 0.020833333333333332, 
+                "gratitude": 0.041666666666666664, 
+                "happiness": 0.0625, 
+                "humility": 0.08333333333333333, 
+                "love": 0.041666666666666664, 
+                "optimism": 0.041666666666666664, 
+                "pessimism": 0.020833333333333332, 
+                "regret": 0.020833333333333332, 
+                "sadness": 0.125, 
+                "shame": 0.041666666666666664, 
+                "shyness": 0.020833333333333332, 
+                "surprise": 0.0625, 
+                "trust": 0.1875
+            }, 
+            "Size": 13
+        }, 
+        "Cluster 4": {
+            "Artistic": {
+                "Least valued": [
+                    {
+                        "Image": "https://uploads0.wikiart.org/images/francisco-goya/saturn-devouring-one-of-his-children-1823.jpg!Large.jpg", 
+                        "Negative": 1, 
+                        "Positive": 0, 
+                        "Title": "Saturn Devouring His Son"
+                    }, 
+                    {
+                        "Image": "https://uploads6.wikiart.org/images/francisco-zurbaran/st-rufina-of-seville-1640.jpg!Large.jpg", 
+                        "Negative": 1, 
+                        "Positive": 0, 
+                        "Title": "St. Rufina of Seville"
+                    }, 
+                    {
+                        "Image": "https://uploads4.wikiart.org/images/francisco-goya/execution-of-the-defenders-of-madrid-3rd-may-1808-1814.jpg!Large.jpg", 
+                        "Negative": 1, 
+                        "Positive": 0, 
+                        "Title": "The Third of May 1808"
+                    }
+                ], 
+                "Most valued": [
+                    {
+                        "Image": "https://uploads8.wikiart.org/images/gerard-david/a-rest-during-the-flight-to-egypt.jpg!Large.jpg", 
+                        "Negative": 2, 
+                        "Positive": 10, 
+                        "Title": "Rest on the Flight into Egypt"
+                    }, 
+                    {
+                        "Image": "https://uploads8.wikiart.org/images/jan-van-hemessen/the-surgeon.jpg!Large.jpg", 
+                        "Negative": 13, 
+                        "Positive": 16, 
+                        "Title": "The Surgeon"
+                    }, 
+                    {
+                        "Image": "https://uploads0.wikiart.org/images/joachim-wtewael/adoration-by-the-shepherds-1625.jpg!Large.jpg", 
+                        "Negative": 0, 
+                        "Positive": 2, 
+                        "Title": "Adoration by the Shepherds"
+                    }
+                ], 
+                "Popular artists": [
+                    "Gerard David", 
+                    "Jan van Hemessen", 
+                    "Joachim Wtewael"
+                ], 
+                "Top Category": "Northern Renaissance", 
+                "Unpopular artists": [
+                    "Robert Campin", 
+                    "Francisco de Zurbaran", 
+                    "Francisco Goya"
+                ]
+            }, 
+            "Demographics": {
+                "age": {
+                    "0-12": 0.07407407407407407, 
+                    "18-24": 0.14814814814814814, 
+                    "25-34": 0.2222222222222222, 
+                    "35-44": 0.25925925925925924, 
+                    "45-54": 0.18518518518518517, 
+                    "55-64": 0.1111111111111111
+                }, 
+                "country": {
+                    "Argenitina": 0.037037037037037035, 
+                    "Brazil": 0.037037037037037035, 
+                    "France": 0.07407407407407407, 
+                    "Italy": 0.037037037037037035, 
+                    "Japan": 0.037037037037037035, 
+                    "Mexico": 0.07407407407407407, 
+                    "Other": 0.18518518518518517, 
+                    "Spain": 0.4444444444444444, 
+                    "USA": 0.07407407407407407
+                }, 
+                "gender": {
+                    "female": 0.4074074074074074, 
+                    "male": 0.5925925925925926
+                }
+            }, 
+            "Emotions": {
+                "agreeableness": 0.03333333333333333, 
+                "anger": 0.027777777777777776, 
+                "anticipation": 0.05, 
+                "arrogance": 0.027777777777777776, 
+                "disagreeableness": 0.022222222222222223, 
+                "disgust": 0.06111111111111111, 
+                "fear": 0.09444444444444444, 
+                "gratitude": 0.06666666666666667, 
+                "happiness": 0.09444444444444444, 
+                "humility": 0.07222222222222222, 
+                "love": 0.07777777777777778, 
+                "optimism": 0.07222222222222222, 
+                "pessimism": 0.027777777777777776, 
+                "regret": 0.03333333333333333, 
+                "sadness": 0.05, 
+                "shame": 0.03888888888888889, 
+                "shyness": 0.016666666666666666, 
+                "surprise": 0.016666666666666666, 
+                "trust": 0.11666666666666667
+            }, 
+            "Size": 27
+        }
+    }, 
+    "Metadata": {
+        "Desc": "Pesos sugeridos por un profesional en arte", 
+        "Method": "DBSCAN", 
+        "Params": {
+            "eps": 0.35, 
+            "min_samples": 5, 
+            "mode": 5, 
+            "weights": {
+                "Artist": 35, 
+                "Depicts": 35, 
+                "Dominantcolor": 5, 
+                "Imagemse": 20, 
+                "Size": 5
+            }
+        }
+    }
+}
