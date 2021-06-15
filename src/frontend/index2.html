@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="es">
+  <head>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/lib/bootstrap.min.css">
+    <link rel="stylesheet" href="css/miCSS.css">
+    <link rel="stylesheet" href="css/lib/morris.css">
+    <link rel="shortcut icon" href="images/UCMFDI_favicon.png">
+    <title>Comunidades en museos [UCM - FDI]</title>
+  </head>
+    <!-- Cabecera -->
+    <header class="navbar bg-primary shadow">
+      <h1 class="display-5 px-3">
+        <img src="images/user.png" alt="" width="50" height="50" class="align-text-bottom">
+        <strong><label class="tComunidades">Comunidades detectadas</label></strong>
+    </header>
+
+
+    <div class="container-fluid" >
+      <div class="row" name="fila" id="fila">
+
+        <!-- Menu de la izquierda -->
+        <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+          <div class="position-sticky pt-3">
+            <ul class="nav flex-column" name="menuIzq" id="menuIzq">
+              <li class="nav-item"> </li>
+                <div class="container-fluid">
+                  <h4 class="text-primary"><b>Seleccione un resultado</b></h4>
+                  <select class="rounded border border-3 form-select selector border border-primary" name="comuidadesDetec" id="comuidadesDetec"></select><br><br><br><br><br>
+                </div>
+            </ul>
+          </div>  
+        </nav>
+
+        <!-- Contenido (informacion) -->
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4" id="info" name="info">
+          <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h1>Información</h1>
+          </div>
+
+          <h2 class="subTitulo"><u>Descripción</u></h2>
+          <p><h6 name="desc" id="desc"></h6></p><br>
+          <h2 class="subTitulo"><u>Pesos utilizados</u></h2>
+          <div class="table-responsive">
+            <table class="table table-striped table-sm">
+              <thead>
+                <tr>
+                  <th>Autor/movimiento(%)</th>
+                  <th>Tamaño cuadro(%)</th>
+                  <th>Color predominante(%)</th>
+                  <th>Elementos del cuadro(%)</th>
+                  <th>Error cuadrático medio(%)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td id="pAutor" name="pAutor"></td>
+                  <td id="pTam" name="pTam"></td>
+                  <td id="pColor" name="pColor"></td>
+                  <td id="pDepics" name="pDepics"></td>
+                  <td id="pMSE" name="pMSE"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div><br><br>
+
+          <h2 class="subTitulo"><u>Técnicas utilizadas</u></h2>
+          <h4 class="subTitulo list-inline-item" font-weight="bold"><b>Algoritmo:</b></h4> 
+          <h6 class="subTitulo list-inline-item" id="algoritmo" name="algoritmo"></h6>
+          <h4 class="subTitulo" font-weight="bold"><b>Parámetros</b></h4> 
+          <div class="table-responsive">
+            <table class="table table-striped table-sm">
+              <thead>
+                <tr>
+                  <th>EPS</th>
+                  <th>Min-samples</th>
+                  <th>Modo</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td id="pEPS" name="pEPS"></td>
+                  <td id="pSamples" name="pSamples"></td>
+                  <td id="pModo" name="pModo"></td>
+                </tr>
+              </tbody>
+            </table>
+            <label>-EPS: Distancia máxima para incluir a un individuo en un cluster</label><br>
+            <label>-Min-samples: Número mínimo de individuos para formar un cluster</label><br>
+            <label>-Modo: Número de cuadros similares generados</label>
+          </div><br><br>
+        </main>
+        
+      </div>
+    </div>
+      <script src= "js/lib/math.js"></script> 
+      <script src= "js/lib/bootstrap.min.js"></script> 
+      <script src= "js/lib/jquery-3.6.0.js"></script>
+      <script src= "js/lib/raphael.js"></script>
+      <script src= "js/lib/morris.js"></script>
+      <script src= "js/miJsCom.js"></script>
+      <script src= "js/miJs.js"></script>   
+</html>
