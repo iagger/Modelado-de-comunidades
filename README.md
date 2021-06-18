@@ -26,6 +26,7 @@
     - En headers/params/body añadir los parámetros necesarios para hacer la consulta.
     
 
-## Similitudes parciales de Artwork
+## Formación de comunidades
 
-    Programa de ejemplo src/backend/sim_test.py
+    Ejecutar src/backend/communities_detection.py
+    Opcion --help para ver parámetros
